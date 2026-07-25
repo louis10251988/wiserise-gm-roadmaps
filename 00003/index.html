@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GM Roadmap - Store 00003 - Wiserise</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#0f172a;--blue:#2563eb;--blue-bg:#eff6ff;--blue-line:#bfdbfe;--green:#059669;--green-bg:#ecfdf5;--green-line:#a7f3d0;--yellow:#b45309;--yellow-bg:#fffbeb;--yellow-line:#fde68a;--red:#dc2626;--red-bg:#fef2f2;--red-line:#fecaca;--radius:14px;--shadow:0 1px 2px rgba(0,0,0,.04)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:14px;-webkit-font-smoothing:antialiased}
+.top{background:var(--brand);color:#fff;position:sticky;top:0;z-index:50}
+.top-inner{max-width:920px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.top h1{font-size:16px;font-weight:700}.top p{font-size:11px;opacity:.6;margin-top:2px}
+.lang{display:flex;border:1px solid rgba(255,255,255,.2);border-radius:8px;overflow:hidden}
+.lang button{background:none;border:none;color:rgba(255,255,255,.55);padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer}
+.lang button.on{background:rgba(255,255,255,.16);color:#fff}
+.tabs{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:40}
+.tabs-inner{max-width:920px;margin:0 auto;padding:0 12px;display:flex;overflow-x:auto;gap:2px}
+.tab{background:none;border:none;border-bottom:2px solid transparent;padding:12px 12px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.tab:hover{color:var(--ink)}.tab.on{color:var(--brand);border-bottom-color:var(--brand)}
+.wrap{max-width:920px;margin:0 auto;padding:22px 18px 72px}
+.page{display:none}.page.on{display:block}
+/* No-JS fallback: show the :target section when URL has #id */
+.page:target{display:block}
+/* Hide first-section default when any :target is active (so only one shows) */
+.page:target~.page.on{display:none}
+.h{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);background:#eef0f4;border-radius:999px;padding:3px 10px;margin-bottom:14px}
+.law{background:var(--blue-bg);border:1px solid var(--blue-line);border-radius:var(--radius);padding:12px 14px;font-size:13.5px;margin-bottom:14px}.law b{color:var(--brand)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:18px}
+.pill{background:var(--brand);color:#fff;font-size:12px;font-weight:700;padding:7px 11px;border-radius:999px}
+.pill.g{background:var(--green)}.pill.o{background:#e5e7eb;color:#4b5563}.arr{color:#c0c5ce;font-weight:700}
+.sec{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:720px){.grid2,.grid4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.card .n{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.card .t{font-size:15px;font-weight:800;margin-bottom:6px}.card .d{font-size:13px;color:#374151}
+.card.click{cursor:pointer}.card.click:hover{border-color:#93c5fd;box-shadow:0 4px 14px rgba(37,99,235,.08)}
+.steps{display:grid;gap:10px;margin-bottom:14px}
+.step{display:grid;grid-template-columns:36px 1fr;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.step .num{width:36px;height:36px;border-radius:10px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+.step .t{font-size:14px;font-weight:800;margin-bottom:4px}.step .d{font-size:13px;color:#374151}
+.step .ex{margin-top:8px;font-size:12.5px;background:var(--blue-bg);border-left:3px solid var(--blue);padding:7px 10px;border-radius:0 8px 8px 0;color:#1e3a8a}
+.step .ex code{background:#dbeafe;padding:2px 7px;border-radius:4px;font-size:12.5px}
+.box{border-radius:12px;padding:11px 13px;font-size:13px;margin-bottom:10px;border:1px solid}
+.box.r{background:var(--red-bg);border-color:var(--red-line)}.box.y{background:var(--yellow-bg);border-color:var(--yellow-line)}
+.box.g{background:var(--green-bg);border-color:var(--green-line)}.box.b{background:var(--blue-bg);border-color:var(--blue-line)}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow)}
+th{background:var(--brand);color:#fff;text-align:left;padding:9px 10px;font-size:11px;font-weight:700}
+td{padding:9px 10px;border-top:1px solid #f1f5f9;vertical-align:top}tr:first-child td{border-top:none}
+code{background:#eff6ff;color:#1e3a8a;padding:2px 7px;border-radius:4px;font-size:12.5px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;white-space:nowrap;font-size:13px}
+.pay{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.pay .card{text-align:center}.pay .big{font-size:24px;font-weight:800;margin:4px 0}.pay .s{font-size:12px;color:var(--muted)}
+@media(max-width:720px){.pay{grid-template-columns:1fr}}
+.do2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:720px){.do2{grid-template-columns:1fr}}
+.do,.dont{border-radius:var(--radius);padding:14px;border:1px solid}
+.do{background:var(--green-bg);border-color:var(--green-line)}.dont{background:var(--yellow-bg);border-color:var(--yellow-line)}
+.do h4,.dont h4{font-size:12px;font-weight:800;margin-bottom:8px}.do ol,.dont ol{margin:0 0 0 18px;font-size:13px}
+.ask{margin-top:16px;border:1px dashed #93c5fd;background:#fff;border-radius:var(--radius);padding:11px 13px;font-size:12.5px}.ask b{color:var(--blue)}
+.foot{text-align:center;color:#9ca3af;font-size:10px;padding:18px 0 0}
+.zh{display:none}body.lang-zh .zh{display:inline}body.lang-zh .en{display:none}body.lang-en .en{display:inline}body.lang-en .zh{display:none}
+.sop-status{padding:5px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12.5px;background:#fff;cursor:pointer}.sop-status:focus{outline:none;border-color:#3b82f6}
+.sch-topbar{background:#0f172a;color:#fff;padding:12px 20px;border-radius:12px;margin-bottom:14px}.sch-topbar h2{font-size:16px;font-weight:700;margin-bottom:2px}.sch-topbar .sub{font-size:11px;opacity:.65}
+.sch-store-h{font-size:18px;font-weight:800;margin-bottom:2px}.sch-store-sub{font-size:12px;color:#6b7280;margin-bottom:10px}
+.sch-subtabs{display:flex;gap:4px;margin-bottom:12px}.sch-subtab{background:none;border:1px solid #e5e7eb;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer}.sch-subtab.on{background:#0f172a;color:#fff;border-color:#0f172a}
+.sch-subpanel{display:none}.sch-subpanel.on{display:block}
+.sch-sec2{font-size:11px;font-weight:800;text-transform:uppercase;color:#6b7280;margin:14px 0 8px;letter-spacing:.03em}
+.sch-box{border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:10px;border:1px solid}.sch-info{background:#eff6ff;border-color:#bfdbfe}.sch-ok{background:#ecfdf5;border-color:#a7f3d0}.sch-warn{background:#fffbeb;border-color:#fde68a}
+.sch-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.sch-chip{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:999px;padding:3px 10px;font-size:13px}
+.sch-muted{font-size:13px;color:#6b7280}.sch-rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:6px}
+.sch-role{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:8px 10px}.sch-role-h{font-size:13px;margin-bottom:4px}
+.sch-nl{list-style:none;font-size:13px;line-height:1.5}.sch-nl li{padding:2px 0;border-bottom:1px solid #f3f4f6}.sch-nl li:last-child{border-bottom:0}
+.gp-banner{background:#0f172a;color:#fff;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;margin-bottom:14px}
+.gp-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;margin-bottom:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.gp-card-h{background:#f8fafc;border-bottom:1px solid #e5e7eb;padding:10px 14px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#475569}
+.gp-tbl{width:100%;border-collapse:collapse;font-size:14px}.gp-tbl th{background:#0f172a;color:#fff;padding:7px 8px;text-align:center;font-size:11px;font-weight:700}.gp-tbl th:first-child{text-align:left;padding-left:14px}
+.gp-tbl td{padding:7px 8px;border-top:1px solid #f1f5f9;text-align:center;vertical-align:middle;font-size:14px}
+.gp-l{text-align:left!important;font-weight:600;font-size:11.5px!important;white-space:nowrap;padding-left:14px!important;color:#334155}
+.gp-am{background:#eff6ff;font-weight:700;font-size:10px!important;color:#2563eb;width:28px}.gp-pm{background:#fefce8;font-weight:700;font-size:10px!important;color:#a16207;width:28px}
+.gp-sec td{background:#f8fafc;font-size:10px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.04em;padding:5px 14px;border-top:2px solid #e2e8f0;text-align:left}.gp-z{background:#fafbfc}
+.gp-sum td{font-size:14px!important;padding:9px 8px!important}
+.gp-ok{background:#ecfdf5!important;color:#059669;font-weight:700;text-align:center}.gp-hi{background:#fef2f2!important;color:#dc2626;font-weight:700;text-align:center}
+.gp-mini{font-size:13px}.gp-mini td{padding:6px 8px;font-size:13px}.gp-mini th:first-child{text-align:left;padding-left:10px}.gp-mini td:first-child{text-align:left;font-weight:600;padding-left:10px}
+.gp-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}@media(max-width:720px){.gp-row{grid-template-columns:1fr}}
+.sch-sched th{text-align:center!important;font-size:11px;padding:6px 4px}.sch-sched th .sch-d{font-weight:500;font-size:10px;opacity:.8}.sch-sched th .sch-pat{font-size:9px;text-transform:uppercase;opacity:.6;display:block;margin-top:2px}
+.sch-sched td{padding:6px 4px;text-align:center;vertical-align:top;font-size:12px;line-height:1.4}.sch-rl{text-align:left!important;font-size:12px!important;width:70px}.sch-need{font-size:9px;color:#9ca3af;font-weight:400}.sch-c{font-size:12px}
+.sch-r:nth-child(4n+1),.sch-r:nth-child(4n+2){background:#fafbfc}
+.sch-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 12px}.sch-step{background:#0f172a;color:#fff;font-size:11px;font-weight:700;padding:6px 10px;border-radius:999px}.sch-step.sch-go{background:#059669}.sch-arr{color:#cbd5e1;font-weight:700;font-size:14px}
+.hw-law{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 16px;font-size:14px;margin-bottom:16px;color:#1e3a8a;line-height:1.5}
+.hw-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}@media(max-width:720px){.hw-row{grid-template-columns:1fr}}
+.hw-card{border-radius:12px;padding:12px 14px;border:1px solid}.hw-blue{background:#eff6ff;border-color:#bfdbfe}.hw-yellow{background:#fffbeb;border-color:#fde68a}.hw-green{background:#ecfdf5;border-color:#a7f3d0}
+.hw-q{font-size:12px;font-weight:800;color:#475569;margin-bottom:4px}.hw-a{font-size:13px;color:#1e293b}
+.hw-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:16px}.hw-step{background:#0f172a;color:#fff;font-size:11px;font-weight:700;padding:7px 12px;border-radius:999px}.hw-step.hw-go{background:#059669}.hw-arr{color:#cbd5e1;font-weight:700;font-size:16px}
+.hw-steps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}@media(max-width:720px){.hw-steps{grid-template-columns:1fr}}
+.hw-step-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.hw-num{width:32px;height:32px;border-radius:8px;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-bottom:8px}
+.hw-stitle{font-size:14px;font-weight:800;margin-bottom:6px;color:#0f172a}.hw-sbody{font-size:13px;color:#374151;line-height:1.5}
+.hw-ex{font-size:11px;color:#6b7280;margin-top:4px;display:block}
+.hw-hard{display:block;margin-top:6px;padding:6px 10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;font-size:11.5px;color:#991b1b}
+.hw-rules{display:grid;gap:8px;margin-bottom:16px}.hw-rule{display:flex;gap:12px;align-items:start;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px}
+.hw-rn{width:28px;height:28px;border-radius:50%;background:#059669;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.hw-muted{font-size:11.5px;color:#6b7280}
+.hw-example{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:16px}.hw-ex-title{font-size:13px;font-weight:800;margin-bottom:10px}
+.hw-ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}@media(max-width:720px){.hw-ex-grid{grid-template-columns:1fr}}
+.hw-ex-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#f8fafc;border-radius:8px;font-size:13px}.hw-ex-item b{font-size:13px}.hw-ex-hi{background:#fef2f2!important;color:#dc2626;font-weight:700}
+.hw-sources{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}@media(max-width:720px){.hw-sources{grid-template-columns:1fr}}
+.hw-src{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:8px 12px;font-size:12px}.hw-src span{font-weight:700;margin-right:6px}
+.hw-mistakes{display:grid;gap:4px}.hw-miss{font-size:13px;padding:8px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:8px}.hw-miss span{color:#059669;font-weight:600}
+/* Collapsible policy cards — Fix 4 */
+.gp-card details summary{cursor:pointer;background:#f8fafc;padding:10px 14px;font-size:13px;font-weight:700;color:#334155;list-style:none;display:flex;align-items:center;gap:8px;user-select:none}
+.gp-card details summary::-webkit-details-marker{display:none}
+.gp-card details summary::before{content:'\25B6';font-size:10px;color:#94a3b8;transition:transform .15s}
+.gp-card details[open] summary::before{transform:rotate(90deg)}
+.gp-card details summary:hover{background:#f1f5f9}
+.gp-card .gp-preview{font-size:12px;color:#6b7280;font-weight:400;margin-left:8px}
+.gp-card details[open] .gp-preview{display:none}
+.gp-card .gp-body{padding:14px;font-size:13px;line-height:1.6}
+/* Warning banner — Fix 3 */
+.data-warn{background:var(--red-bg);border:1px solid var(--red-line);border-radius:10px;padding:10px 14px;font-size:13px;color:#991b1b;font-weight:600;margin-bottom:12px}
+/* History sub-tab — Fix 6 */
+.hist-list{list-style:none;padding:0}.hist-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.hist-date{font-weight:700;color:#334155}.hist-link{font-size:12px;color:#2563eb;text-decoration:none}
+.hist-empty{color:#6b7280;font-size:13px;padding:14px;background:#f8fafc;border-radius:10px}
+/* Train tab note — Fix 8 */
+.train-note{margin-top:14px;background:var(--blue-bg);border:1px solid var(--blue-line);border-radius:10px;padding:10px 14px;font-size:12px;color:#1e3a8a}
+.train-note b{color:var(--brand)}
+/* Schedule shift time labels — Fix 7 */
+.sch-shift-times{font-size:10px;color:#6b7280;font-weight:600;margin-bottom:8px;padding:4px 10px;background:#f8fafc;border-radius:6px;display:inline-block}
+.sch-shift-times span{margin-right:12px}
+</style>
+</head>
+<body class="lang-en">
+<div class="top"><div class="top-inner"><div><h1>&#x1F5FA;&#xFE0F; GM Roadmap</h1><p>4 jobs - store Slack - Brain SOPs - plain words</p></div><div class="lang"><button class="on" onclick="setLang('en',this)">EN</button><button onclick="setLang('zh',this)">&#x4E2D;&#x6587;</button></div></div></div>
+<div class="tabs"><div class="tabs-inner">
+<a class="tab on" href="#lost" onclick="go('lost',this);return false">&#x1F6A8; <span class="en">Lost?</span><span class="zh">&#x614C;&#x4E86;&#xFF1F;</span></a>
+<a class="tab" href="#today" onclick="go('today',this);return false">&#x2600;&#xFE0F; <span class="en">Today</span><span class="zh">&#x4ECA;&#x5929;</span></a>
+<a class="tab" href="#week" onclick="go('week',this);return false">&#x1F4C5; <span class="en">Weekly Cadence</span><span class="zh">&#x6BCF;&#x5468;&#x8282;&#x594F;</span></a>
+<a class="tab" href="#train" onclick="go('train',this);return false">&#x1F393; <span class="en">Train</span><span class="zh">&#x8BAD;&#x7EC3;</span></a>
+<a class="tab" href="#foh" onclick="go('foh',this);return false">&#x1F5D3;&#xFE0F; <span class="en">Schedule System</span><span class="zh">&#x6392;&#x73ED;&#x7CFB;&#x7EDF;</span></a>
+<a class="tab" href="#gates" onclick="go('gates',this);return false">&#x26D4; <span class="en">Gates</span><span class="zh">&#x7EA2;&#x7EBF;</span></a>
+<a class="tab" href="#say" onclick="go('say',this);return false">&#x1F4AC; <span class="en">Say</span><span class="zh">&#x600E;&#x4E48;&#x8BF4;</span></a>
+<a class="tab" href="#policy" onclick="go('policy',this);return false">&#x1F4CB; <span class="en">Policy</span><span class="zh">&#x653F;&#x7B56;</span></a>
+</div></div>
+<div class="wrap">
+
+<section class="page on" id="lost">
+<div class="h"><span class="en">Lost? Do 3 things</span><span class="zh">慌了？只做3件事</span></div>
+<div class="sub"><span class="en">Shrink the job. Protect the shift first.</span><span class="zh">把工作缩小。先保住这一班。</span></div>
+<div class="chip"><span class="en">First principles</span><span class="zh">第一性原理</span></div>
+<div class="law"><b><span class="en">Law:</span><span class="zh">定律：</span></b><span class="en">A store only dies from 4 jobs — bot, run today, lead people, keep money. Everything else can wait.</span><span class="zh">店只死在4件事 — 机器人 · 今天 · 带人 · 守钱。其他都可以等。</span></div>
+<div class="flow"><span class="pill">1 Stop</span><span class="arr">&rarr;</span><span class="pill">2 @WISE OPS</span><span class="arr">&rarr;</span><span class="pill">3 Run shift</span><span class="arr">&rarr;</span><span class="pill">4 Log</span><span class="arr">&rarr;</span><span class="pill g">5 One tab</span></div>
+<div class="steps">
+<div class="step"><div class="num">1</div><div><div class="t"><span class="en">Type the problem in store channel</span><span class="zh">在店频道打出问题</span></div><div class="d"><span class="en">@WISE OPS + plain words. Stay in that thread.</span><span class="zh">@WISE OPS + 白话。留在那条线里。</span></div><div class="ex"><code>@WISE OPS walk-in not cold, food at risk</code></div></div></div>
+<div class="step"><div class="num">2</div><div><div class="t"><span class="en">Run this shift</span><span class="zh">跑好这一班</span></div><div class="d"><span class="en">2-min huddle. Walk floor. Own the loudest guest problem.</span><span class="zh">2分钟站会。走场。管最大的客人问题。</span></div></div></div>
+<div class="step"><div class="num">3</div><div><div class="t"><span class="en">Write end-of-day note</span><span class="zh">写收工记录</span></div><div class="d"><span class="en">4 boxes: process, people, money feel, problem. Same day in Slack.</span><span class="zh">4格：流程、人、钱感、问题。当天发Slack。</span></div></div></div>
+</div>
+<div class="box r"><b><span class="en">Same-day &rarr; Louis:</span><span class="zh">当天上报 Louis：</span></b> <span class="en">money out, fire, landlord, bank/pay weird, safety</span><span class="zh">钱出、开除、房东、银行/工资异常、安全</span></div>
+<div class="sec"><span class="en">Brain SOP</span><span class="zh">Brain SOP</span></div>
+<table><tr><th>NO</th><th><span class="en">Doc</span><span class="zh">文件</span></th><th><span class="en">Ask</span><span class="zh">问</span></th></tr>
+<tr><td class="mono">REF-004</td><td>How to Use Slack</td><td><code>how do we use Slack</code></td></tr>
+<tr><td class="mono">SHIFT-001</td><td>Manager Logbook</td><td><code>manager logbook</code></td></tr>
+<tr><td class="mono">GST-004</td><td>Angry Guest H.E.A.R.T.</td><td><code>angry guest SOP</code></td></tr>
+<tr><td class="mono">TEAM-015</td><td>Escalation Policy</td><td><code>escalation policy</code></td></tr></table>
+<div class="ask"><b>&#9889;</b> <code>@WISE OPS</code> + problem - <code>roster</code> - <code>store health</code></div>
+</section>
+
+<section class="page" id="today">
+<div class="h"><span class="en">Today OS</span><span class="zh">今天</span></div>
+<div class="sub"><span class="en">One good day. Master this tab first.</span><span class="zh">跑好今天。先会这一页。</span></div>
+<div class="chip"><span class="en">Level 1 - Run today</span><span class="zh">第1级 · 跑今天</span></div>
+<div class="law"><b><span class="en">1 line:</span><span class="zh">1句：</span></b><span class="en">Open on time &rarr; team knows the plan &rarr; guests feel owned &rarr; close clean &rarr; write what happened.</span><span class="zh">准时开 &rarr; 团队知道计划 &rarr; 客人有人管 &rarr; 打烊干净 &rarr; 写下发生了什么。</span></div>
+<div class="flow"><span class="pill">Open</span><span class="arr">&rarr;</span><span class="pill">Huddle 2m</span><span class="arr">&rarr;</span><span class="pill">Floor</span><span class="arr">&rarr;</span><span class="pill">Guest</span><span class="arr">&rarr;</span><span class="pill">Close</span><span class="arr">&rarr;</span><span class="pill g">Log</span></div>
+<div class="sec"><span class="en">Day blocks</span><span class="zh">一天分段</span></div>
+<table><tr><th>#</th><th><span class="en">Block</span><span class="zh">段</span></th><th><span class="en">Do</span><span class="zh">做</span></th><th><span class="en">Done</span><span class="zh">完成</span></th></tr>
+<tr><td>1</td><td><b>Before open</b></td><td>Key person first. Stations ready. Cash rules.</td><td>Open on time</td></tr>
+<tr><td>2</td><td><b>Huddle</b></td><td>2 min: one focus, one risk, who owns what.</td><td>Team can repeat it</td></tr>
+<tr><td>3</td><td><b>Floor</b></td><td>Walk. Speed, mess, tickets, FOH/BOH talk.</td><td>Name #1 risk</td></tr>
+<tr><td>4</td><td><b>Guest</b></td><td>Mad guest = your name. Listen &rarr; fix &rarr; follow up.</td><td>Clear ending</td></tr>
+<tr><td>5</td><td><b>Close + log</b></td><td>Checklist. Cash. 4-box log same day.</td><td>Log in Slack</td></tr></table>
+<div class="grid2"><div class="card"><div class="t"><span class="en">Huddle script</span><span class="zh">站会台词</span></div><div class="d">"Focus: ticket time. Risk: 1 host till 6. Sam owns expo. Go."</div></div><div class="card"><div class="t"><span class="en">Mad guest script</span><span class="zh">客人发火台词</span></div><div class="d">"I'm the manager. What happened? I'll fix this now. Back in 5."</div></div></div>
+<div class="sec"><span class="en">Brain SOP</span><span class="zh">Brain SOP</span></div>
+<table><tr><th>NO</th><th><span class="en">Doc</span><span class="zh">文件</span></th><th><span class="en">Ask</span><span class="zh">问</span></th></tr>
+<tr><td class="mono">SHIFT-001</td><td>Manager Logbook</td><td><code>manager logbook</code></td></tr>
+<tr><td class="mono">GST-004</td><td>Angry Guest H.E.A.R.T.</td><td><code>angry guest SOP</code></td></tr>
+<tr><td class="mono">CASH-001</td><td>Cash Drawer Count</td><td><code>cash drawer SOP</code></td></tr>
+<tr><td class="mono">CASH-007</td><td>Cash Bag Swap</td><td><code>cash bag swap</code></td></tr></table>
+<div class="ask"><b>&#9889;</b> <code>what's the SOP for closing</code> - <code>store health</code> - <code>any fraud?</code></div>
+</section>
+
+<section class="page" id="week">
+<div class="h"><span class="en">&#x1F4C5; <span class="en">Weekly Cadence</span><span class="zh">&#x6BCF;&#x5468;&#x8282;&#x594F;</span></span><span class="zh">每周节奏</span></div>
+<div class="sub"><span class="en">People + light money. Same shape every week. 55h - Wed/Sun OFF.</span><span class="zh">人 + 轻量钱。每周同一形状。55小时 · 周三/周日休。</span></div>
+<div class="chip"><span class="en">Level 2 + Level 3 light</span><span class="zh">第2级 + 第3级轻量</span></div>
+<div class="law"><b>1 line:</b> Schedule on time - grow one person - fix one hard people issue - write one money fix.</div>
+<div class="flow"><span class="pill">Mon admin</span><span class="arr">&rarr;</span><span class="pill">Tue floor</span><span class="arr">&rarr;</span><span class="pill o">Wed OFF</span><span class="arr">&rarr;</span><span class="pill">Thu train</span><span class="arr">&rarr;</span><span class="pill">Fri busy</span><span class="arr">&rarr;</span><span class="pill">Sat peak</span><span class="arr">&rarr;</span><span class="pill o">Sun OFF</span><span class="arr">&rarr;</span><span class="pill g">1 red + 1 fix</span></div>
+<div class="sec"><span class="en">Day jobs</span><span class="zh">每天干什么</span></div>
+<table><tr><th><span class="en">Day</span><span class="zh">天</span></th><th>Hrs</th><th><span class="en">Job</span><span class="zh">任务</span></th></tr>
+<tr><td><b>Mon</b></td><td>10-9</td><td>Schedule, labor, hire pipeline</td></tr>
+<tr><td><b>Tue</b></td><td>10-9</td><td>Floor lead, train FOH, 1:1</td></tr>
+<tr><td><b>Wed</b></td><td>OFF</td><td>Name who holds store</td></tr>
+<tr><td><b>Thu</b></td><td>10-9</td><td>Floor, train check, Google reply</td></tr>
+<tr><td><b>Fri</b></td><td>11-10</td><td>Busy night, close, cash/fraud, KPI proof</td></tr>
+<tr><td><b>Sat</b></td><td>11-10</td><td>Peak, full FOH ownership</td></tr>
+<tr><td><b>Sun</b></td><td>OFF</td><td>OFF</td></tr></table>
+<div class="box b"><b>&#x23F1;&#xFE0F; 55 hrs</b> - GM = FOH + people + money. Kitchen Mgr owns BOH line.</div>
+<div class="sec"><span class="en">People jobs</span><span class="zh">人事活</span></div>
+<table><tr><th>Job</th><th><span class="en">&#x1F4D8; <span class="en">How</span><span class="zh">&#x600E;&#x4E48;&#x505A;</span></span><span class="zh">怎么做</span></th><th>Proof</th></tr>
+<tr><td><span class="en">&#x1F4C5; <span class="en">Schedule</span><span class="zh">&#x6392;&#x73ED;</span></span><span class="zh">排班</span></td><td>On time. covers/30 for FOH.</td><td>Screenshot</td></tr>
+<tr><td>Train 1 hire</td><td>3D: show &rarr; you do &rarr; they do</td><td>Name + skill</td></tr>
+<tr><td>Hard people</td><td>Coach &rarr; paper write-up + photo</td><td>Paper trail</td></tr>
+<tr><td>No-show</td><td>Who missing &rarr; who came</td><td>Short Slack note</td></tr>
+<tr><td>Check-ins</td><td>2 questions + 1 thank/coach</td><td>Names</td></tr></table>
+<div class="sec"><span class="en">Money pulse</span><span class="zh">钱的脉搏</span></div>
+<div class="grid2"><div class="card"><div class="t"><span class="en">1. Pick one red number</span><span class="zh">选一个红灯数字</span></div><div class="d">Labor, waste, soft sales, voids - only one.</div></div><div class="card"><div class="t"><span class="en">2. Write one fix next week</span><span class="zh">下周写一个修复</span></div><div class="d">Small and real. Cut idle hour. Retrain void.</div></div></div>
+<div class="sec"><span class="en">Brain SOP</span><span class="zh">Brain SOP</span></div>
+<table><tr><th>NO</th><th><span class="en">Doc</span><span class="zh">文件</span></th><th><span class="en">Ask</span><span class="zh">问</span></th></tr>
+<tr><td class="mono">TEAM-001</td><td>3D Training</td><td><code>3D training SOP</code></td></tr>
+<tr><td class="mono">TEAM-002</td><td>Coaching R.A.P.I.D.</td><td><code>coaching SOP</code></td></tr>
+<tr><td class="mono">TEAM-007</td><td>Written Warning</td><td><code>write-up form</code></td></tr>
+<tr><td class="mono">TEAM-017</td><td>One-on-One</td><td><code>1:1 form</code></td></tr>
+<tr><td class="mono">TEAM-013/014</td><td>Recruit + Onboard</td><td><code>need 1 server</code> - <code>onboard Name</code></td></tr></table>
+<div class="ask"><b>&#9889;</b> <code>need 1 server</code> - <code>roster</code> - <code>staffing</code></div>
+</section>
+
+<section class="page" id="train">
+<div class="h"><span class="en">Train 0 to 3</span><span class="zh">训练 0 到 3</span></div>
+<div class="sub"><span class="en">30 days. Proof every day. Same path for new + existing GM.</span><span class="zh">30天。每天证据。新老店长同一条路。</span></div>
+<div class="chip"><span class="en">PASS L1+L2+L3 = certified</span><span class="zh">通过L1+L2+L3 = 认证</span></div>
+<div class="law"><b><span class="en">Order matters:</span><span class="zh">顺序很重要：</span></b>
+<div class="flow"><span class="pill">Start</span><span class="arr">&rarr;</span><span class="pill">1 job card</span><span class="arr">&rarr;</span><span class="pill">Do</span><span class="arr">&rarr;</span><span class="pill">Proof</span><span class="arr">&rarr;</span><span class="pill">Coach</span><span class="arr">&rarr;</span><span class="pill">Quiz</span><span class="arr">&rarr;</span><span class="pill g">Next level</span></div>
+</div>
+<div class="sec"><span class="en">4 levels</span><span class="zh">4级</span></div>
+<div class="grid2">
+<div class="card"><div class="n">Layer 0 - Day 0</div><div class="t">&#x26A1; Use WISE OPS</div><div class="d">Hire, roster, SOP, problem in store channel. Money/fire to Louis.</div></div>
+<div class="card"><div class="n">Level 1 - D1-10</div><div class="t">&#x2600;&#xFE0F; Run today</div><div class="d">3 shifts, huddle, 1 guest save, daily log</div></div>
+<div class="card"><div class="n">Level 2 - D11-20</div><div class="t">&#x1F465; Lead people</div><div class="d">Schedule, train 1, hard fix, no-show, check-ins</div></div>
+<div class="card"><div class="n">Level 3 - D21-30</div><div class="t">&#x1F4B0; Keep money</div><div class="d">P&L, labor, food, owner report</div></div>
+</div>
+<div class="flow"><span class="pill">L0</span><span class="arr">&rarr;</span><span class="pill">L1 PASS</span><span class="arr">&rarr;</span><span class="pill">L2 PASS</span><span class="arr">&rarr;</span><span class="pill">L3 PASS</span><span class="arr">&rarr;</span><span class="pill g">Certified</span></div>
+<div class="sec">&#x26A1; Layer 0 - Use WISE OPS</div><table><tr><th>NO</th><th><span class="en">Doc</span></th><th><span class="en">Ask</span></th><th><span class="en">Status</span><span class="zh">状态</span></th></tr><tr><td class="mono">REF-004</td><td><b>How to Use Slack</b></td><td><code>how do we use Slack</code></td><td><select class="sop-status" data-sop="REF-004" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-016</td><td><b>Position Change</b></td><td><code>position change</code></td><td><select class="sop-status" data-sop="TEAM-016" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr></table><div class="sec">&#x2600;&#xFE0F; Level 1 - Run today (D1-10)</div><table><tr><th>NO</th><th><span class="en">Doc</span></th><th><span class="en">Ask</span></th><th><span class="en">Status</span><span class="zh">状态</span></th></tr><tr><td class="mono">SHIFT-001</td><td><b>Manager Logbook</b></td><td><code>manager logbook</code></td><td><select class="sop-status" data-sop="SHIFT-001" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">GST-004</td><td><b>Resolve Angry Guest (H.E.A.R.T.) SOP</b></td><td><code>angry guest SOP</code></td><td><select class="sop-status" data-sop="GST-004" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">CASH-001</td><td><b>Daily Cash Drawer Count SOP</b></td><td><code>cash drawer SOP</code></td><td><select class="sop-status" data-sop="CASH-001" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">CASH-007</td><td><b>Cash Bag Swap SOP</b></td><td><code>cash bag swap</code></td><td><select class="sop-status" data-sop="CASH-007" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr></table><div class="sec">&#x1F465; Level 2 - Lead people (D11-20)</div><table><tr><th>NO</th><th><span class="en">Doc</span></th><th><span class="en">Ask</span></th><th><span class="en">Status</span><span class="zh">状态</span></th></tr><tr><td class="mono">TEAM-001</td><td><b>3D Training SOP</b></td><td><code>3D training SOP</code></td><td><select class="sop-status" data-sop="TEAM-001" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-002</td><td><b>Coaching (R.A.P.I.D.)</b></td><td><code>coaching SOP</code></td><td><select class="sop-status" data-sop="TEAM-002" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-007</td><td><b>Written Warning (C.L.E.A.R.)</b></td><td><code>write-up form</code></td><td><select class="sop-status" data-sop="TEAM-007" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-005</td><td><b>Probation (F.I.N.A.L.)</b></td><td><code>probation SOP</code></td><td><select class="sop-status" data-sop="TEAM-005" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-006</td><td><b>Termination (S.T.O.P.)</b></td><td><code>termination SOP</code></td><td><select class="sop-status" data-sop="TEAM-006" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-013</td><td><b>Recruiting Pipeline</b></td><td><code>need 1 server</code></td><td><select class="sop-status" data-sop="TEAM-013" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-014</td><td><b>Onboarding Pipeline</b></td><td><code>onboard Name</code></td><td><select class="sop-status" data-sop="TEAM-014" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-017</td><td><b>The One-on-One</b></td><td><code>1:1 form</code></td><td><select class="sop-status" data-sop="TEAM-017" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr></table><div class="sec">&#x1F4B0; Level 3 - Keep money (D21-30)</div><table><tr><th>NO</th><th><span class="en">Doc</span></th><th><span class="en">Ask</span></th><th><span class="en">Status</span><span class="zh">状态</span></th></tr><tr><td class="mono">REF-002</td><td><b>Pay Band Policy</b></td><td><code>pay bands</code></td><td><select class="sop-status" data-sop="REF-002" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">REF-011</td><td><b>WB- GM 7SHIFT AND CHOWBUS PERMISSION</b></td><td><code>GM 7shifts permission</code></td><td><select class="sop-status" data-sop="REF-011" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr></table><div class="sec">&#x1F393; Certify - Brand Role SOP</div><table><tr><th>NO</th><th><span class="en">Doc</span></th><th><span class="en">Ask</span></th><th><span class="en">Status</span><span class="zh">状态</span></th></tr><tr><td class="mono">GNG-025</td><td><b>General Manager Role SOP</b></td><td><code>what does a GM do</code></td><td><select class="sop-status" data-sop="GNG-025" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">MAS-031</td><td><b>General Manager Role SOP</b></td><td><code>what does a GM do</code></td><td><select class="sop-status" data-sop="MAS-031" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">LCB-043</td><td><b>General Manager Role SOP</b></td><td><code>what does a GM do</code></td><td><select class="sop-status" data-sop="LCB-043" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr></table><div class="sec">&#x1F3E2; Company essentials</div><table><tr><th>NO</th><th><span class="en">Doc</span></th><th><span class="en">Ask</span></th><th><span class="en">Status</span><span class="zh">状态</span></th></tr><tr><td class="mono">REF-008</td><td><b>30-Day GM Training Book</b></td><td><code>GM training book</code></td><td><select class="sop-status" data-sop="REF-008" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr><tr><td class="mono">TEAM-015</td><td><b>Company Escalation Policy</b></td><td><code>escalation policy</code></td><td><select class="sop-status" data-sop="TEAM-015" onchange="saveSopStatus(this)"><option value="">-</option><option value="todo">To do</option><option value="learning">Learning</option><option value="done">Done</option></select></td></tr></table>
+<div class="train-note"><b><span class="en">Status saves on this device.</span><span class="zh">状态保存在本设备。</span></b> <span class="en">For team-wide tracking, post in store channel: @WISE OPS training update [SOP-NO] [status]</span><span class="zh">团队追踪请在店频道发：@WISE OPS training update [SOP-NO] [status]</span></div>
+<div class="ask"><b>&#9889;</b> <code>train GM @Name store N coach @X</code> - <code>GM train status</code> - <code>proof: ...</code></div>
+</section>
+
+<section class="page" id="gates">
+<div class="h"><span class="en">&#x26D4; <span class="en">Gates</span><span class="zh">&#x7EA2;&#x7EBF;</span></span><span class="zh">红线</span></div>
+<div class="sub"><span class="en">If clever + unsure &rarr; stop. Ask.</span><span class="zh">如果聪明但不确定 &rarr; 停。问。</span></div>
+<div class="chip"><span class="en">Louis locked</span><span class="zh">Louis锁定</span></div>
+<div class="law"><b>1 line:</b>
+<div class="flow"><span class="pill">Unsure?</span><span class="arr">&rarr;</span><span class="pill">$ / fire / new rule?</span><span class="arr">&rarr;</span><span class="pill">&#x1F6D1; STOP</span><span class="arr">&rarr;</span><span class="pill">Ask</span><span class="arr">&rarr;</span><span class="pill g">Human yes</span></div>
+</div>
+<div class="sec"><span class="en">Always true</span><span class="zh">永远真</span></div>
+<div class="box g"><b>&#x2705; 1.</b> Hire in plan only. Over plan &rarr; HR. Manager hire &rarr; Louis.</div>
+<div class="box g"><b>&#x2705; 2.</b> Fire never auto. Paper ladder first. HR + Louis.</div>
+<div class="box g"><b>&#x2705; 3.</b> Buy &lt;$500 &rarr; Yumi. &ge;$500 &rarr; Louis. Bank &rarr; Louis + Luna.</div>
+<div class="box g"><b>&#x2705; 4.</b> One office = store Slack. Not #02-executive for floor work.</div>
+<div class="box g"><b>&#x2705; 5.</b> Roster truth = company system. Not random Sheets.</div>
+<div class="box g"><b>&#x2705; 6.</b> Pull SOPs. Don't publish company law.</div>
+<div class="sec"><span class="en">Who stamps</span><span class="zh">谁盖章</span></div>
+<div class="grid4">
+<div class="card" style="text-align:center"><div class="n">Hire pick</div><div class="t">&#x1F451; GM</div><div class="d">In-plan floor</div></div>
+<div class="card" style="text-align:center"><div class="n">&#x1F393; <span class="en">Train</span><span class="zh">&#x8BAD;&#x7EC3;</span></div><div class="t">&#x1F451; GM</div><div class="d">5-day pass/fail</div></div>
+<div class="card" style="text-align:center"><div class="n">$500+</div><div class="t">&#x1F454; Louis</div><div class="d">Big buy</div></div>
+<div class="card" style="text-align:center"><div class="n">Fire</div><div class="t">&#x2696;&#xFE0F; HR+Louis</div><div class="d">End job</div></div>
+</div>
+<div class="sec"><span class="en">Can / cannot</span><span class="zh">能 / 不能</span></div>
+<table><tr><th><span class="en">Thing</span><span class="zh">事</span></th><th>GM</th><th><span class="en">Not alone</span><span class="zh">不能自己</span></th></tr>
+<tr><td>Floor hire in plan</td><td>Yes</td><td>-</td></tr>
+<tr><td>Over-plan / manager hire</td><td>Request</td><td>HR / Louis</td></tr>
+<tr><td>Schedule / train / coach</td><td>Yes</td><td>-</td></tr>
+<tr><td>Buy &ge;$500 / fire / bank</td><td>No</td><td>Louis / Luna / HR</td></tr></table>
+<div class="box r"><b><span class="en">Never:</span><span class="zh">绝不：</span></b> <span class="en">auto-fire, pocket cash, skip ladder, invent approval, Shift Lead as manager Slack</span><span class="zh">自动开除、口袋现金、跳过流程、捏造批准、组长当经理用Slack</span></div>
+<div class="sec"><span class="en">Brain SOP</span><span class="zh">Brain SOP</span></div>
+<table><tr><th>NO</th><th><span class="en">Doc</span><span class="zh">文件</span></th><th><span class="en">Ask</span><span class="zh">问</span></th></tr>
+<tr><td class="mono">TEAM-002</td><td>Coaching</td><td><code>coaching SOP</code></td></tr>
+<tr><td class="mono">TEAM-007</td><td>Written Warning</td><td><code>write-up form</code></td></tr>
+<tr><td class="mono">TEAM-005</td><td>Probation</td><td><code>probation SOP</code></td></tr>
+<tr><td class="mono">TEAM-006</td><td>Termination S.T.O.P.</td><td><code>termination SOP</code></td></tr>
+<tr><td class="mono">REF-002</td><td>Pay Band Policy</td><td><code>pay bands</code></td></tr></table>
+</section>
+
+<section class="page" id="say">
+<div class="h"><span class="en">Say this</span><span class="zh">怎么说</span></div>
+<div class="sub"><span class="en">Store channel = office. Short plain words beat fancy templates.</span><span class="zh">店频道=办公室。短白话打败花哨模板。</span></div>
+<div class="chip"><span class="en">Layer 0</span><span class="zh">第0层</span></div>
+<div class="law"><b>1 line:</b> One job, one thread, role + number + what happened.</div>
+<div class="flow"><span class="pill">Store ch</span><span class="arr">&rarr;</span><span class="pill">@WISE OPS</span><span class="arr">&rarr;</span><span class="pill">Plain job</span><span class="arr">&rarr;</span><span class="pill">Stay thread</span><span class="arr">&rarr;</span><span class="pill g">Human yes on $ / fire</span></div>
+<div class="sec"><span class="en">Copy lines</span><span class="zh">直接复制</span></div>
+<table><tr><th><span class="en">Want</span><span class="zh">想做</span></th><th><span class="en">Type</span><span class="zh">打</span></th></tr>
+<tr><td>Need people</td><td><code>need 2 servers</code></td></tr>
+<tr><td>Roster</td><td><code>roster</code> - <code>staffing</code></td></tr>
+<tr><td>Onboard</td><td><code>onboard Maya</code></td></tr>
+<tr><td>SOP / form</td><td><code>what's the SOP for closing</code></td></tr>
+<tr><td>Buy</td><td><code>need 10 headsets this week</code></td></tr>
+<tr><td>Broken gear</td><td><code>walk-in fridge not cooling</code></td></tr>
+<tr><td>Anything</td><td><code>@WISE OPS</code> + story</td></tr>
+<tr><td>Health</td><td><code>store health</code></td></tr></table>
+<div class="sec"><span class="en">Hire path</span><span class="zh">招人路径</span></div>
+<div class="flow"><span class="pill">need 2 servers</span><span class="arr">&rarr;</span><span class="pill">Budget</span><span class="arr">&rarr;</span><span class="pill">Candidates</span><span class="arr">&rarr;</span><span class="pill">You pick</span><span class="arr">&rarr;</span><span class="pill">Onboard</span><span class="arr">&rarr;</span><span class="pill g">5-day pass/fail</span></div>
+<div class="box g"><b>&#x2705; 1.</b> Same thread for whole job.</div>
+<div class="box g"><b>&#x2705; 2.</b> Clear words beat long stories.</div>
+<div class="box r"><b>&#x274C; 3.</b> Money / fire never auto-yes.</div>
+<div class="sec"><span class="en">Brain SOP</span><span class="zh">Brain SOP</span></div>
+<table><tr><th>NO</th><th><span class="en">Doc</span><span class="zh">文件</span></th><th><span class="en">Ask</span><span class="zh">问</span></th></tr>
+<tr><td class="mono">REF-004</td><td>How to Use Slack</td><td><code>how do we use Slack</code></td></tr>
+<tr><td class="mono">TEAM-013</td><td>Recruiting Pipeline</td><td><code>need 2 servers</code></td></tr>
+<tr><td class="mono">TEAM-014</td><td>Onboarding Pipeline</td><td><code>onboard Name</code></td></tr>
+<tr><td class="mono">SHIFT-001</td><td>Manager Logbook</td><td><code>manager logbook</code></td></tr></table>
+<div class="ask"><b>&#9889;</b> <code>need 1 server</code> - <code>roster</code> - <code>@WISE OPS fridge not cold</code></div>
+</section>
+
+<section class="page" id="foh">
+<div class="sch-topbar"><h2>&#x1F5D3;&#xFE0F; <span class="en">Schedule System</span><span class="zh">&#x6392;&#x73ED;&#x7CFB;&#x7EDF;</span></h2><div class="sub">people-roster-sync - min-safe-gap v1.10.2 - covers/30 - boss pack APPROVED</div></div>
+
+<div class="sch-store-h">&#x1F3EA; 00003 - Gangnam Wilmington</div>
+<div class="sch-store-sub">GM <b>Levi</b> - FOH only - GM 1@55h - AGM 6sh/36h - FM1+FM2 pack</div>
+<div class="sch-subtabs" data-store="00003">
+<button class="sch-subtab on" data-sub="how-00003">&#x1F4D8; <span class="en">How</span><span class="zh">&#x600E;&#x4E48;&#x505A;</span></button>
+<button class="sch-subtab" data-sub="staff-00003">&#x1F465; <span class="en">Staff</span><span class="zh">&#x4EBA;&#x5458;</span></button>
+<button class="sch-subtab" data-sub="gap-00003">&#x1F4C9; <span class="en">Gap</span><span class="zh">&#x7F3A;&#x53E3;</span></button>
+<button class="sch-subtab" data-sub="sch-00003">&#x1F4C5; <span class="en">Schedule</span><span class="zh">&#x6392;&#x73ED;</span></button>
+<button class="sch-subtab" data-sub="hist-00003">&#x1F4C1; <span class="en">History</span><span class="zh">&#x5386;&#x53F2;</span></button>
+</div>
+<div class="sch-subpanel on" id="how-00003"><div class="sch-how">
+<div class="gp-banner"><b>How - MIN SAFE GAP</b> - High-school plain English - hire seats first - then 7shifts</div>
+<div class="hw-law">&#x1F4A1; Count real guests -> how many servers each shift -> how many people on payroll -> who is missing -> hire them -> build the week in 7shifts.</div>
+<div class="hw-row"><div class="hw-card hw-blue"><div class="hw-q">What are we calculating?</div><div class="hw-a">MIN SAFE CURRENT GAP by role = <b>how many seats to hire</b></div></div><div class="hw-card hw-yellow"><div class="hw-q">What is this NOT?</div><div class="hw-a">Not the final 7shifts board. That is publish later.</div></div><div class="hw-card hw-green"><div class="hw-q">Foundation role</div><div class="hw-a"><b>Server</b> - everyone else hangs off the server grid</div></div></div>
+<div class="hw-flow"><span class="hw-step">1 &#x1F4CA; POS guests</span><span class="hw-arr">-></span><span class="hw-step">2 &#x1F37D;&#xFE0F; div30</span><span class="hw-arr">-></span><span class="hw-step">3 &#x1F4C8; T/MIN/SAFE</span><span class="hw-arr">-></span><span class="hw-step">4 &#x1F465; Host Bus Boss</span><span class="hw-arr">-></span><span class="hw-step">5 &#x1F527; GAP hire</span><span class="hw-arr">-></span><span class="hw-step hw-go">6 &#x1F4F1; 7shifts</span></div>
+<div class="hw-steps">
+<div class="hw-step-card"><div class="hw-num">1</div><div class="hw-stitle">&#x1F4CA; Phase 1 - Average guests</div><div class="hw-sbody">Build <b>14 separate averages</b> - Mon AM with Mon AM, Mon PM with Mon PM ... Sun PM with Sun PM. Never one number for the whole week. Last 4-8 weeks. Split AM/PM at 4:30 PM ET.</div></div>
+<div class="hw-step-card"><div class="hw-num">2</div><div class="hw-stitle">&#x1F37D;&#xFE0F; Phase 2 - Servers on floor</div><div class="hw-sbody">One server handles max <b>30 guests</b> per shift. For each of 14 shifts: <code>ROUNDUP(avg / 30)</code>. Example: 150 -> 5, 240 -> 8.</div></div>
+<div class="hw-step-card"><div class="hw-num">3</div><div class="hw-stitle">&#x1F465; Phase 3 - How many to employ</div><div class="hw-sbody"><code>T = sum(14)</code> <code>MIN = ROUNDUP(T/4)</code> <code>SAFE = ROUNDUP((T/4)x1.25)</code> <code>GAP = SAFE - CURRENT</code><br><span class="hw-ex">Example: T=76 -> MIN 19 SAFE 24 if CURRENT 19 -> hire 5</span></div></div>
+<div class="hw-step-card"><div class="hw-num">4</div><div class="hw-stitle">&#x1F454; Phase 4 - Other roles</div><div class="hw-sbody"><b>Host</b> - 1 door, 2 Fri/Sat PM (or servers >=6)<br><b>Bus</b> - ~1 per 3-4 servers on rush<br><b>GM</b> - 1 @ 55h Wed/Sun OFF<br><b>AGM</b> - 1 @ 6sh/36h<br><b>FM</b> - FM1 6sh/36h + FM2 2sh/12h<br><span class="hw-hard">Hard rule: every open hour = GM or AGM or Floor. Lead != boss.</span></div></div>
+<div class="hw-step-card"><div class="hw-num">5</div><div class="hw-stitle">&#x1F527; Hire the GAP</div><div class="hw-sbody">If GAP > 0 -> recruit that role. <b>Do not invent fake names</b> on the board.</div></div>
+<div class="hw-step-card"><div class="hw-num">6</div><div class="hw-stitle">&#x1F4C5; Build and publish</div><div class="hw-sbody">Put real names in 7shifts. Build order: <b>Boss -> Host -> Server -> Bus</b>. Publish by <b>Friday 5pm</b>.</div></div>
+</div>
+<div class="hw-rules"><div class="hw-rule"><div class="hw-rn">1</div><div><b>Covers avg = DOW x daypart only</b><br><span class="hw-muted">Mon->Mon AM with AM PM with PM. Never one blob.</span></div></div><div class="hw-rule"><div class="hw-rn">2</div><div><b>Never under MIN - fix GAP first</b><br><span class="hw-muted">No empty boss hour. SAFE - CURRENT = hire need. No fake names.</span></div></div><div class="hw-rule"><div class="hw-rn">3</div><div><b>Staff heavy, cut fast</b><br><span class="hw-muted">Build to SAFE. If ~30% slow at 2:00 or 8:30, send FM2 home early.</span></div></div></div>
+<div class="hw-example"><div class="hw-ex-title">&#x1F4A1; Tiny example (remember this)</div><div class="hw-ex-grid"><div class="hw-ex-item"><span>Sat PM guests</span><b>240</b></div><div class="hw-ex-item"><span>Servers</span><b>240 / 30 = 8</b></div><div class="hw-ex-item"><span>Hosts</span><b>2</b></div><div class="hw-ex-item"><span>Bussers</span><b>2</b></div><div class="hw-ex-item"><span>Server week T</span><b>76</b></div><div class="hw-ex-item"><span>SAFE</span><b>ROUNDUP((76/4)x1.25) = 24</b></div><div class="hw-ex-item"><span>GM AGM Floor</span><b>1@55h 1@6sh FM1+FM2</b></div><div class="hw-ex-item hw-ex-hi"><span>If Brain = 19</span><b>GAP = 24 - 19 = 5</b></div></div></div>
+<div class="hw-sources"><div class="hw-src"><span>Guests</span> Chowbus POS -> Brain</div><div class="hw-src"><span>CURRENT</span> Brain active by role</div><div class="hw-src"><span>Gap tab</span> Phase 1-4 + hire list</div><div class="hw-src"><span>Final board</span> 7shifts after GM publishes</div></div>
+<div class="hw-mistakes"><div class="hw-miss"><b>&#x274C;</b> Using /30 for GM/AGM -> <span>Boss = seats + hours</span></div><div class="hw-miss"><b>&#x274C;</b> Lead as boss -> <span>Never</span></div><div class="hw-miss"><b>&#x274C;</b> Mixing Mon PM with Sat PM -> <span>Like-for-like only</span></div><div class="hw-miss"><b>&#x274C;</b> Fake names when GAP big -> <span>Hire first</span></div><div class="hw-miss"><b>&#x274C;</b> Excel as real board -> <span>7shifts only</span></div></div>
+</div></div>
+<div class="sch-subpanel" id="staff-00003"><div class="sch-staff"><div class="sch-box sch-info"><b>Source:</b> people-roster-sync - roster-dashboard.json - never direct 7shifts - as_of 2026-07-25T15:34:21 (0.22h)</div><div class="sch-sec2">CURRENT by role (active)</div><div class="sch-chips"><span class="sch-chip">&#x1F451; <b>GM</b> 1</span> <span class="sch-chip">&#x1F539; <b>AGM</b> 0</span> <span class="sch-chip">&#x1F575;&#xFE0F; <b>FM</b> 2</span> <span class="sch-chip">&#x1F37D;&#xFE0F; <b>Server</b> 17</span> <span class="sch-chip">&#x1F6AA; <b>Host</b> 6</span> <span class="sch-chip">&#x1F9F9; <b>Busser</b> 5</span> <span class="sch-chip"><b>Bartender</b> 0</span> <span class="sch-chip">&#x1F464; <b>Floor Lead</b> 6</span></div><div class="sch-muted">Bodies: <b>42</b> Pipeline: <b>0</b> Unknown: <b>0</b></div><div class="sch-box sch-ok">Data: Clean</div><div class="sch-sec2">Names by role (Brain active)</div><div class="sch-rg"><div class="sch-role"><div class="sch-role-h">&#x1F451; <b>GM</b> (1)</div><ul class="sch-nl"><li>Levi Fioravanti</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F539; <b>AGM</b> (0)</div><ul class="sch-nl"><li style="color:#9ca3af;font-style:italic">—</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F575;&#xFE0F; <b>FM</b> (2)</div><ul class="sch-nl"><li>David Dixon</li><li>Samantha Stelzer</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F37D;&#xFE0F; <b>Server</b> (17)</div><ul class="sch-nl"><li>(Franz) Heri Franjawandi</li><li>Aaron Foster</li><li>April Cruz</li><li>Ashton Lawley</li><li>Asia LeNay Brace</li><li>Aubrie Marella</li><li>Daniela Diaz</li><li>Dewi Kesumawaty</li><li>Elana Vanderhaar</li><li>Hayley Taylor</li><li>Ivelyn Rios</li><li>Jairo Sanchez</li><li>Jayna Kolbicka</li><li>Loralei Bungard</li><li>Maya Wadhwa</li><li>Wren Godwin</li><li>Yunmei Mullin-Saunders</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F6AA; <b>Host</b> (6)</div><ul class="sch-nl"><li>An Doan</li><li>Benny Cabreja</li><li>Brynna Jedrey</li><li>lucas wang</li><li>Mary Beardshaw</li><li>Mikayla Murray</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F9F9; <b>Busser</b> (5)</div><ul class="sch-nl"><li>Calico Johnson</li><li>Connor Soltowski</li><li>Jacquez Desjan Johnson</li><li>Manuel Diaz</li><li>Sayra Domingo</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F379; <b>Bartender</b> (0)</div><ul class="sch-nl"><li style="color:#9ca3af;font-style:italic">—</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F464; <b>Floor Lead</b> (6)</div><ul class="sch-nl"><li>Chloe Castles</li><li>Chris Downing</li><li>Elizabeth Tran</li><li>Myung Park</li><li>Rachel Crespo</li><li>Sally Park</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F525; <b>Line Cook</b> (3)</div><ul class="sch-nl"><li>Angel C</li><li>Daniel marianomoreno</li><li>david ventura</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F373; <b>Kitchen Lead</b> (1)</div><ul class="sch-nl"><li>Mendez Gomez</li></ul></div><div class="sch-role"><div class="sch-role-h">&#x1F468;&#x200D;&#x1F373; <b>Kitchen Manager</b> (1)</div><ul class="sch-nl"><li>Frank BOH</li></ul></div></div></div></div>
+<div class="sch-subpanel" id="gap-00003"><div class="sch-gap"><div class="gp-banner"><b>MIN SAFE GAP</b> v1.10.2 - Server grid = foundation - Boss = seats+hours (not /30)</div><div class="gp-card"><div class="gp-card-h">&#x1F4CA; Phase 1-4 Covers -> Server -> Host -> Bus</div><table class="gp-tbl"><thead><tr><th></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead><tbody><tr class="gp-sec"><td colspan="8">Phase 1 Avg covers (POS 8wk)</td></tr><tr><td class="gp-l">AM covers</td><td>170</td><td>146</td><td>132</td><td>142</td><td>102</td><td>128</td><td>158</td></tr><tr><td class="gp-l">PM covers</td><td>160</td><td>141</td><td>158</td><td>173</td><td>220</td><td>274</td><td>196</td></tr><tr class="gp-sec"><td colspan="8">Phase 2 Server /30 (ROUNDUP)</td></tr><tr><td class="gp-l">AM server</td><td>6</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>6</td></tr><tr><td class="gp-l">PM server</td><td>6</td><td>5</td><td>6</td><td>6</td><td>8</td><td>10</td><td>7</td></tr><tr class="gp-sec"><td colspan="8">Phase 4 Host + Bus</td></tr><tr><td class="gp-l">Host AM</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td class="gp-l">Host PM</td><td>2</td><td>1</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr><tr><td class="gp-l">Bus AM</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td></tr><tr><td class="gp-l">Bus PM</td><td>2</td><td>1</td><td>2</td><td>2</td><td>2</td><td>3</td><td>2</td></tr></tbody></table></div><div class="gp-card"><div class="gp-card-h">&#x1F4C5; All roles AM + PM need</div><table class="gp-tbl"><thead><tr><th>Role</th><th></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead><tbody><tr class=""><td rowspan="2" class="gp-l"><b>GM</b></td><td class="gp-am">AM</td><td>1</td><td>1</td><td>.</td><td>1</td><td>1</td><td>1</td><td>.</td></tr><tr class="{z}"><td class="gp-pm">PM</td><td>1</td><td>1</td><td>.</td><td>1</td><td>1</td><td>1</td><td>.</td></tr><tr class="gp-z"><td rowspan="2" class="gp-l"><b>AGM</b></td><td class="gp-am">AM</td><td>.</td><td>.</td><td>1</td><td>.</td><td>1</td><td>.</td><td>1</td></tr><tr class="{z}"><td class="gp-pm">PM</td><td>.</td><td>.</td><td>.</td><td>.</td><td>1</td><td>1</td><td>1</td></tr><tr class=""><td rowspan="2" class="gp-l"><b>FM</b></td><td class="gp-am">AM</td><td>.</td><td>1</td><td>.</td><td>1</td><td>.</td><td>.</td><td>.</td></tr><tr class="{z}"><td class="gp-pm">PM</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>.</td></tr><tr class="gp-z"><td rowspan="2" class="gp-l"><b>Host</b></td><td class="gp-am">AM</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr class="{z}"><td class="gp-pm">PM</td><td>2</td><td>1</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr><tr class=""><td rowspan="2" class="gp-l"><b>Server</b></td><td class="gp-am">AM</td><td>6</td><td>5</td><td>5</td><td>5</td><td>4</td><td>5</td><td>6</td></tr><tr class="{z}"><td class="gp-pm">PM</td><td>6</td><td>5</td><td>6</td><td>6</td><td>8</td><td>10</td><td>7</td></tr><tr class="gp-z"><td rowspan="2" class="gp-l"><b>Bus</b></td><td class="gp-am">AM</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td></tr><tr class="{z}"><td class="gp-pm">PM</td><td>2</td><td>1</td><td>2</td><td>2</td><td>2</td><td>3</td><td>2</td></tr><tr class=""><td rowspan="2" class="gp-l"><b>Floor Lead</b></td><td class="gp-am">AM</td><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td></tr><tr class="{z}"><td class="gp-pm">PM</td><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td><td>.</td></tr></tbody></table></div><div class="gp-card"><div class="gp-card-h">&#x2705; Payroll MIN SAFE CURRENT GAP hire</div><table class="gp-tbl gp-sum"><thead><tr><th>Role</th><th>MIN</th><th>SAFE</th><th>CUR</th><th>GAP</th></tr></thead><tbody><tr><td class="gp-l"><b>GM</b></td><td>1</td><td>1</td><td>1</td><td class="gp-ok"><b>0</b></td></tr><tr><td class="gp-l"><b>AGM</b></td><td>1</td><td>1</td><td>0</td><td class="gp-hi"><b>1</b></td></tr><tr><td class="gp-l"><b>FM</b></td><td>3</td><td>3</td><td>2</td><td class="gp-hi"><b>1</b></td></tr><tr><td class="gp-l"><b>Host</b></td><td>5</td><td>7</td><td>6</td><td class="gp-hi"><b>1</b></td></tr><tr><td class="gp-l"><b>Server</b></td><td>21</td><td>27</td><td>17</td><td class="gp-hi"><b>10</b></td></tr><tr><td class="gp-l"><b>Bus</b></td><td>6</td><td>8</td><td>5</td><td class="gp-hi"><b>3</b></td></tr><tr><td class="gp-l"><b>Lead (helper · not boss)</b></td><td>0</td><td>0</td><td>6</td><td class="gp-ok"><b>0</b></td></tr></tbody></table></div><div class="gp-row"><div class="gp-card"><div class="gp-card-h">&#x1F454; Boss pack v1.10.2</div><table class="gp-tbl gp-mini"><thead><tr><th>Role</th><th>Seats</th><th>Work</th></tr></thead><tbody><tr><td class="gp-l">GM</td><td>1</td><td>55h Wed/Sun OFF</td></tr><tr><td class="gp-l">AGM</td><td>1</td><td>6sh/36h</td></tr><tr><td class="gp-l">FM1</td><td>1</td><td>6sh/36h Mon-Thu</td></tr><tr><td class="gp-l">FM2</td><td>1</td><td>2sh/12h Fri+Sat PM</td></tr></tbody></table></div><div class="gp-card"><div class="gp-card-h">&#x1F5D3;&#xFE0F; Coverage matrix</div><table class="gp-tbl gp-mini"><thead><tr><th>DOW</th><th>AM</th><th>PM</th></tr></thead><tbody><tr><td class="gp-l">Mon</td><td>GM</td><td>GM+FM1</td></tr><tr><td class="gp-l">Tue</td><td>GM+FM1</td><td>GM+FM1</td></tr><tr><td class="gp-l">Wed</td><td>AGM</td><td>FM1</td></tr><tr><td class="gp-l">Thu</td><td>GM+FM1</td><td>GM+FM1</td></tr><tr><td class="gp-l">Fri</td><td>GM+AGM</td><td>GM+AGM+FM2</td></tr><tr><td class="gp-l">Sat</td><td>GM</td><td>GM+AGM+FM2</td></tr><tr><td class="gp-l">Sun</td><td>AGM</td><td>AGM</td></tr></tbody></table></div></div></div></div>
+<div class="sch-subpanel" id="sch-00003"><div class="sch-sched-wrap"><div class="gp-banner"><b>Schedule draft</b> - Staff (who) -> Gap (how many) -> Names on board -> 7shifts publish</div><div class="sch-shift-times"><span>AM: 10:30-4:30</span><span>PM: 4:30-close</span></div><div class="gp-card"><div class="gp-card-h">&#x1F4CB; Staff -> Gap -> Schedule summary</div><table class="gp-tbl gp-sum"><thead><tr><th>Role</th><th>Staff pool</th><th>MIN</th><th>SAFE</th><th>CUR</th><th>GAP</th></tr></thead><tbody><tr><td class="gp-l"><b>GM</b></td><td>1</td><td>1</td><td>1</td><td>1</td><td class="gp-ok"><b>0</b></td></tr><tr><td class="gp-l"><b>AGM</b></td><td>0</td><td>1</td><td>1</td><td>0</td><td class="gp-hi"><b>1</b></td></tr><tr><td class="gp-l"><b>FM</b></td><td>2</td><td>3</td><td>3</td><td>2</td><td class="gp-hi"><b>1</b></td></tr><tr><td class="gp-l"><b>Host</b></td><td>6</td><td>5</td><td>7</td><td>6</td><td class="gp-hi"><b>1</b></td></tr><tr><td class="gp-l"><b>Server</b></td><td>17</td><td>21</td><td>27</td><td>17</td><td class="gp-hi"><b>10</b></td></tr><tr><td class="gp-l"><b>Bus</b></td><td>5</td><td>6</td><td>8</td><td>5</td><td class="gp-hi"><b>3</b></td></tr></tbody></table></div><div class="sch-flow"><span class="sch-step">1 &#x1F451; GM</span><span class="sch-arr">-></span><span class="sch-step">2 &#x1F539; AGM</span><span class="sch-arr">-></span><span class="sch-step">3 &#x1F575;&#xFE0F; FM1 FM2</span><span class="sch-arr">-></span><span class="sch-step">4 &#x1F6AA; Host</span><span class="sch-arr">-></span><span class="sch-step">5 &#x1F37D;&#xFE0F; Server</span><span class="sch-arr">-></span><span class="sch-step">6 &#x1F9F9; Bus</span><span class="sch-arr">-></span><span class="sch-step sch-go">7 &#x1F4F1; 7shifts</span></div><div class="gp-card"><div class="gp-card-h">Week 1 7/24 - 7/30</div><table class="gp-tbl sch-sched"><thead><tr><th>Role</th><th></th><th>Mon<br><span class="sch-d">7/24</span><br><span class="sch-pat">soft</span></th><th>Tue<br><span class="sch-d">7/25</span><br><span class="sch-pat">soft</span></th><th>Wed<br><span class="sch-d">7/26</span><br><span class="sch-pat">normal</span></th><th>Thu<br><span class="sch-d">7/27</span><br><span class="sch-pat">normal</span></th><th>Fri<br><span class="sch-d">7/28</span><br><span class="sch-pat">busy</span></th><th>Sat<br><span class="sch-d">7/29</span><br><span class="sch-pat">busy</span></th><th>Sun<br><span class="sch-d">7/30</span><br><span class="sch-pat">busy</span></th></tr></thead><tbody><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>GM</b><br><span class="sch-need">need 1.1.0.1.1.1.0</span></td><td class="gp-am">AM</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">.</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">.</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">1.1.0.1.1.1.0</span></td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">.</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">.</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>AGM</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 1</span><br><span class="sch-need">need 0.0.1.0.1.0.1</span></td><td class="gp-am">AM</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">0.0.0.0.1.1.1</span></td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>FM</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 1</span><br><span class="sch-need">need 0.1.0.1.0.0.0</span></td><td class="gp-am">AM</td><td class="sch-c">.</td><td class="sch-c">David Dixon</td><td class="sch-c">.</td><td class="sch-c">David Dixon</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">1.1.1.1.1.1.0</span></td><td class="sch-c">David Dixon</td><td class="sch-c">David Dixon</td><td class="sch-c">David Dixon</td><td class="sch-c">David Dixon</td><td class="sch-c">Samantha Stelzer</td><td class="sch-c">Samantha Stelzer</td><td class="sch-c">.</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>Host</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 1</span><br><span class="sch-need">need 1.1.1.1.1.1.1</span></td><td class="gp-am">AM</td><td class="sch-c">An Doan</td><td class="sch-c">An Doan</td><td class="sch-c">Mary Beardshaw</td><td class="sch-c">Brynna Jedrey</td><td class="sch-c">Mary Beardshaw</td><td class="sch-c">Brynna Jedrey</td><td class="sch-c">Mary Beardshaw</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">2.1.2.2.2.2.2</span></td><td class="sch-c">Brynna Jedrey<br>Mary Beardshaw</td><td class="sch-c">Mary Beardshaw</td><td class="sch-c">Benny Cabreja<br>Mikayla Murray</td><td class="sch-c">An Doan<br>Mary Beardshaw</td><td class="sch-c">lucas wang<br>Mikayla Murray</td><td class="sch-c">An Doan<br>Mary Beardshaw</td><td class="sch-c">Benny Cabreja<br>Mikayla Murray</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>Server</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 10</span><br><span class="sch-need">need 6.5.5.5.4.5.6</span></td><td class="gp-am">AM</td><td class="sch-c">(Franz) Heri Franjawandi<br>April Cruz<br>Asia LeNay Brace<br>Daniela Diaz<br>Elana Vanderhaar<br>Ivelyn Rios</td><td class="sch-c">Elana Vanderhaar<br>Jayna Kolbicka<br>Yunmei Mullin-Saunders<br>Dewi Kesumawaty<br>Hayley Taylor</td><td class="sch-c">Dewi Kesumawaty<br>Ivelyn Rios<br>Maya Wadhwa<br>Aaron Foster<br>Aubrie Marella</td><td class="sch-c">Yunmei Mullin-Saunders<br>Asia LeNay Brace<br>Hayley Taylor<br>Loralei Bungard<br>(Franz) Heri Franjawandi</td><td class="sch-c">Elana Vanderhaar<br>Jayna Kolbicka<br>Aaron Foster<br>Yunmei Mullin-Saunders</td><td class="sch-c">Dewi Kesumawaty<br>Ivelyn Rios<br>Maya Wadhwa<br>Ashton Lawley<br>Elana Vanderhaar</td><td class="sch-c">Wren Godwin<br>April Cruz<br>Dewi Kesumawaty<br>Ivelyn Rios<br>Maya Wadhwa<br>Ashton Lawley</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">6.5.6.6.8.10.7</span></td><td class="sch-c">Jayna Kolbicka<br>Maya Wadhwa<br>Yunmei Mullin-Saunders<br>Aaron Foster<br>Ashton Lawley<br>Aubrie Marella</td><td class="sch-c">Jairo Sanchez<br>Wren Godwin<br>Aaron Foster<br>Ashton Lawley<br>Aubrie Marella</td><td class="sch-c">Elana Vanderhaar<br>Jayna Kolbicka<br>Yunmei Mullin-Saunders<br>Loralei Bungard<br>(Franz) Heri Franjawandi<br>April Cruz</td><td class="sch-c">Ashton Lawley<br>Dewi Kesumawaty<br>Ivelyn Rios<br>Maya Wadhwa<br>Aaron Foster<br>Aubrie Marella</td><td class="sch-c">Daniela Diaz<br>Jairo Sanchez<br>Wren Godwin<br>April Cruz<br>Hayley Taylor<br>Loralei Bungard<br>(Franz) Heri Franjawandi<br>Ashton Lawley</td><td class="sch-c">Jayna Kolbicka<br>Aaron Foster<br>Yunmei Mullin-Saunders<br>Asia LeNay Brace<br>Daniela Diaz<br>Jairo Sanchez<br>Wren Godwin<br>April Cruz<br>Hayley Taylor<br>Loralei Bungard</td><td class="sch-c">Elana Vanderhaar<br>Jayna Kolbicka<br>Aaron Foster<br>Yunmei Mullin-Saunders<br>Asia LeNay Brace<br>Daniela Diaz<br>Jairo Sanchez</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>Bus</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 3</span><br><span class="sch-need">need 2.1.1.1.1.1.2</span></td><td class="gp-am">AM</td><td class="sch-c">Calico Johnson<br>Jacquez Desjan Johnson</td><td class="sch-c">Sayra Domingo</td><td class="sch-c">Connor Soltowski</td><td class="sch-c">Sayra Domingo</td><td class="sch-c">Manuel Diaz</td><td class="sch-c">Calico Johnson</td><td class="sch-c">Sayra Domingo<br>Jacquez Desjan Johnson</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">2.1.2.2.2.3.2</span></td><td class="sch-c">Sayra Domingo<br>Connor Soltowski</td><td class="sch-c">Manuel Diaz</td><td class="sch-c">Manuel Diaz<br>Sayra Domingo</td><td class="sch-c">Calico Johnson<br>Connor Soltowski</td><td class="sch-c">Sayra Domingo<br>Jacquez Desjan Johnson</td><td class="sch-c">Connor Soltowski<br>Manuel Diaz<br>Sayra Domingo</td><td class="sch-c">Connor Soltowski<br>Manuel Diaz</td></tr></tbody></table></div><div class="gp-card"><div class="gp-card-h">Week 2 7/31 - 8/6</div><table class="gp-tbl sch-sched"><thead><tr><th>Role</th><th></th><th>Mon<br><span class="sch-d">7/31</span><br><span class="sch-pat">soft</span></th><th>Tue<br><span class="sch-d">8/01</span><br><span class="sch-pat">soft</span></th><th>Wed<br><span class="sch-d">8/02</span><br><span class="sch-pat">normal</span></th><th>Thu<br><span class="sch-d">8/03</span><br><span class="sch-pat">normal</span></th><th>Fri<br><span class="sch-d">8/04</span><br><span class="sch-pat">busy</span></th><th>Sat<br><span class="sch-d">8/05</span><br><span class="sch-pat">busy</span></th><th>Sun<br><span class="sch-d">8/06</span><br><span class="sch-pat">busy</span></th></tr></thead><tbody><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>GM</b><br><span class="sch-need">need 1.1.0.1.1.1.0</span></td><td class="gp-am">AM</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">.</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">.</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">1.1.0.1.1.1.0</span></td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">.</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">Levi Fioravanti</td><td class="sch-c">.</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>AGM</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 1</span><br><span class="sch-need">need 0.0.1.0.1.0.1</span></td><td class="gp-am">AM</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">0.0.0.0.1.1.1</span></td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>FM</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 1</span><br><span class="sch-need">need 0.1.0.1.0.0.0</span></td><td class="gp-am">AM</td><td class="sch-c">.</td><td class="sch-c">David Dixon</td><td class="sch-c">.</td><td class="sch-c">David Dixon</td><td class="sch-c">.</td><td class="sch-c">.</td><td class="sch-c">.</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">1.1.1.1.1.1.0</span></td><td class="sch-c">David Dixon</td><td class="sch-c">David Dixon</td><td class="sch-c">David Dixon</td><td class="sch-c">David Dixon</td><td class="sch-c">Samantha Stelzer</td><td class="sch-c">Samantha Stelzer</td><td class="sch-c">.</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>Host</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 1</span><br><span class="sch-need">need 1.1.1.1.1.1.1</span></td><td class="gp-am">AM</td><td class="sch-c">Brynna Jedrey</td><td class="sch-c">Mary Beardshaw</td><td class="sch-c">lucas wang</td><td class="sch-c">An Doan</td><td class="sch-c">lucas wang</td><td class="sch-c">An Doan</td><td class="sch-c">Brynna Jedrey</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">2.1.2.2.2.2.2</span></td><td class="sch-c">An Doan<br>Mary Beardshaw</td><td class="sch-c">lucas wang</td><td class="sch-c">Mikayla Murray<br>An Doan</td><td class="sch-c">Mary Beardshaw<br>Benny Cabreja</td><td class="sch-c">Mikayla Murray<br>An Doan</td><td class="sch-c">Mary Beardshaw<br>Benny Cabreja</td><td class="sch-c">Mikayla Murray<br>An Doan</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>Server</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 10</span><br><span class="sch-need">need 6.5.5.5.4.5.6</span></td><td class="gp-am">AM</td><td class="sch-c">Yunmei Mullin-Saunders<br>(Franz) Heri Franjawandi<br>Aubrie Marella<br>Hayley Taylor<br>Loralei Bungard<br>April Cruz</td><td class="sch-c">Maya Wadhwa<br>Ashton Lawley<br>Jayna Kolbicka<br>Yunmei Mullin-Saunders<br>Asia LeNay Brace</td><td class="sch-c">Loralei Bungard<br>April Cruz<br>Dewi Kesumawaty<br>Ivelyn Rios<br>Aaron Foster</td><td class="sch-c">Jayna Kolbicka<br>Yunmei Mullin-Saunders<br>Asia LeNay Brace<br>Jairo Sanchez<br>(Franz) Heri Franjawandi</td><td class="sch-c">Dewi Kesumawaty<br>Ivelyn Rios<br>Aaron Foster<br>Jayna Kolbicka</td><td class="sch-c">Jairo Sanchez<br>(Franz) Heri Franjawandi<br>Aubrie Marella<br>Maya Wadhwa<br>Ashton Lawley</td><td class="sch-c">April Cruz<br>Elana Vanderhaar<br>Jairo Sanchez<br>(Franz) Heri Franjawandi<br>Aubrie Marella<br>Maya Wadhwa</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">6.5.6.6.8.10.7</span></td><td class="sch-c">Dewi Kesumawaty<br>Ivelyn Rios<br>Maya Wadhwa<br>Ashton Lawley<br>Elana Vanderhaar<br>Jayna Kolbicka</td><td class="sch-c">Daniela Diaz<br>Jairo Sanchez<br>(Franz) Heri Franjawandi<br>Aubrie Marella<br>Hayley Taylor</td><td class="sch-c">Elana Vanderhaar<br>Maya Wadhwa<br>Ashton Lawley<br>Jayna Kolbicka<br>Yunmei Mullin-Saunders<br>Wren Godwin</td><td class="sch-c">Aubrie Marella<br>Loralei Bungard<br>April Cruz<br>Dewi Kesumawaty<br>Ivelyn Rios<br>Aaron Foster</td><td class="sch-c">Yunmei Mullin-Saunders<br>Daniela Diaz<br>Wren Godwin<br>Asia LeNay Brace<br>Hayley Taylor<br>Jairo Sanchez<br>(Franz) Heri Franjawandi<br>Aubrie Marella</td><td class="sch-c">Dewi Kesumawaty<br>Ivelyn Rios<br>Aaron Foster<br>Jayna Kolbicka<br>Yunmei Mullin-Saunders<br>Daniela Diaz<br>Wren Godwin<br>Asia LeNay Brace<br>Hayley Taylor<br>Loralei Bungard</td><td class="sch-c">Ashton Lawley<br>Dewi Kesumawaty<br>Ivelyn Rios<br>Aaron Foster<br>Jayna Kolbicka<br>Yunmei Mullin-Saunders<br>Daniela Diaz</td></tr><tr class="sch-r"><td rowspan="2" class="sch-rl"><b>Bus</b> <span style="font-size:9px;color:#dc2626;font-weight:600">GAP 3</span><br><span class="sch-need">need 2.1.1.1.1.1.2</span></td><td class="gp-am">AM</td><td class="sch-c">Manuel Diaz<br>Sayra Domingo</td><td class="sch-c">Connor Soltowski</td><td class="sch-c">Sayra Domingo</td><td class="sch-c">Connor Soltowski</td><td class="sch-c">Jacquez Desjan Johnson</td><td class="sch-c">Connor Soltowski</td><td class="sch-c">Manuel Diaz<br>Sayra Domingo</td></tr><tr><td class="gp-pm">PM<br><span class="sch-need">2.1.2.2.2.3.2</span></td><td class="sch-c">Calico Johnson<br>Connor Soltowski</td><td class="sch-c">Sayra Domingo</td><td class="sch-c">Jacquez Desjan Johnson<br>Manuel Diaz</td><td class="sch-c">Sayra Domingo<br>Calico Johnson</td><td class="sch-c">Manuel Diaz<br>Connor Soltowski</td><td class="sch-c">Sayra Domingo<br>Calico Johnson<br>Manuel Diaz</td><td class="sch-c">Jacquez Desjan Johnson<br>Calico Johnson</td></tr></tbody></table></div><div class="gp-banner" style="background:#eff6ff;color:#1e3a8a"><code>rebuild store tabs</code> - GM checks PTO -> fixes -> publishes in 7shifts - HTML != 7shifts - FOH only</div></div></div>
+<div class="sch-subpanel" id="hist-00003"><div class="sch-hist">
+<div class="gp-banner"><b><span class="en">&#x1F4C1; <span class="en">History</span><span class="zh">&#x5386;&#x53F2;</span></span><span class="zh">历史</span></b> - <span class="en">Past schedule snapshots</span><span class="zh">历史排班快照</span></div>
+<ul class="hist-list"><li class="hist-item"><span class="hist-date">2026-07-25 11:47:43</span><span>42 bodies - Gaps: AGM: GAP 1, Floor Manager: GAP 1, Host: GAP 1, Server: GAP 10, Busser: GAP 3</span> <a class="hist-link" href="#">rebuild</a></li></ul>
+<div class="sch-box sch-info"><span class="en">Snapshots saved at: ~/.hermes/artifacts/gm-roadmaps/history/00003/</span><span class="zh">快照保存位置：~/.hermes/artifacts/gm-roadmaps/history/00003/</span></div>
+</div></div>
+</section>
+
+<section class="page" id="policy">
+<div class="sch-policy">
+<div class="gp-banner"><b>Company Policies</b> - From Brain - All stores - All brands</div>
+<div class="law">Same rules every store. Read them. Follow them. <b>Ask @WISE OPS</b> if unsure.</div>
+<div class="gp-card"><details><summary>TEAM-003 . 1 - NON-NEGOTIABLE<span class="gp-preview"> - 1 · NON-NEGOTIABLE:...</span></summary><div class="gp-body">1 · NON-NEGOTIABLE:<br>
+  1.1 Theft — no stealing money, food, supplies.<br>
+  1.2 Comping — no free items without manager approval.<br>
+  1.3 Fraud — never fake time, edits, or records.<br>
+  1.4 Harassment — no discrimination or harassment.<br>
+  1.5 Substances — no drugs or alcohol on shift.<br>
+  1.6 No-Show — missing shift without calling + discipline.<br>
+  1.7 Violence — no threats, weapons, or fighting.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 2 - ATTENDANCE<span class="gp-preview"> - 2 · ATTENDANCE:...</span></summary><div class="gp-body">2 · ATTENDANCE:<br>
+  2.1 Coverage — work your shifts or find coverage.<br>
+  2.2 Clocking — clock in/out at correct times.<br>
+  2.3 Callout — call out 4+ hours early.<br>
+  2.4 Illness — stay home if sick (vomiting/fever).<br>
+  2.5 Limit — 3 callouts in 30 days = discipline.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 3 - PAY & TIPS<span class="gp-preview"> - 3 · PAY & TIPS:...</span></summary><div class="gp-body">3 · PAY &amp; TIPS:<br>
+  3.1 Hours — record every minute accurately.<br>
+  3.2 Tips — report all tips daily, no exceptions.<br>
+  3.3 Discount — staff discount is 25% only.<br>
+  3.4 Logging — enter every discount in POS first.<br>
+  3.5 Approvals — manager approval for refunds &amp; voids.<br>
+  3.6 Logins — never share POS codes.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 4 - SAFETY & UNIFORM<span class="gp-preview"> - 4 · SAFETY & UNIFORM:...</span></summary><div class="gp-body">4 · SAFETY &amp; UNIFORM:<br>
+  4.1 Shoes — black non-slip shoes every shift.<br>
+  4.2 Uniform — clean, approved uniform every shift.<br>
+  4.3 Grooming — neat hair, grooming, appearance.<br>
+  4.4 Accidents — report all injuries to MOD now.<br>
+  4.5 Cleanliness — keep floors dry, clear, safe.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 5 - CONDUCT<span class="gp-preview"> - 5 · CONDUCT:...</span></summary><div class="gp-body">5 · CONDUCT:<br>
+  5.1 Respect — polite to guests, leads, coworkers.<br>
+  5.2 Bullying — no gossip, bullying, intimidation.<br>
+  5.3 Direction — follow manager instructions.<br>
+  5.4 Language — no profanity or slurs on the floor.<br>
+  5.5 Phones — phones away unless approved.<br>
+  5.6 Posting — no posting work content or guests.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 6 - FOLLOW THE SYSTEM<span class="gp-preview"> - 6 · FOLLOW THE SYSTEM:...</span></summary><div class="gp-body">6 · FOLLOW THE SYSTEM:<br>
+  6.1 SOPs — follow all SOPs exactly.<br>
+  6.2 Sidework — finish before you clock out.<br>
+  6.3 Escalate — report problems early.<br>
+  6.4 Honesty — admit mistakes fast.<br>
+  6.5 Training — finish assigned training on time.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 7 - FOOD SAFETY<span class="gp-preview"> - 7 · FOOD SAFETY:...</span></summary><div class="gp-body">7 · FOOD SAFETY:<br>
+  7.1 Handwash — wash hands often.<br>
+  7.2 Gloves — use for ready-to-eat food.<br>
+  7.3 Separation — keep raw away from cooked.<br>
+  7.4 Temps — follow all hot/cold rules.<br>
+  7.5 Allergens — report allergy orders now.<br>
+  7.6 Symptoms — stay home if showing illness.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 8 - SECURITY<span class="gp-preview"> - 8 · SECURITY:...</span></summary><div class="gp-body">8 · SECURITY:<br>
+  8.1 Unsafe — tell MOD if anyone feels unsafe.<br>
+  8.2 911 — call for medical, violence, weapons.<br>
+  8.3 Doors — keep back doors closed &amp; locked.<br>
+  8.4 Keys — never share keys or codes.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 9 - INVENTORY<span class="gp-preview"> - 9 · INVENTORY:...</span></summary><div class="gp-body">9 · INVENTORY:<br>
+  9.1 Waste — log all waste every time.<br>
+  9.2 Sampling — no tasting without approval.<br>
+  9.3 Takeout — no food home without approval.<br>
+  9.4 Receiving — report missing deliveries.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 10 - BREAKS & MINORS<span class="gp-preview"> - 10 · BREAKS & MINORS:...</span></summary><div class="gp-body">10 · BREAKS &amp; MINORS:<br>
+  10.1 Breaks — only when approved.<br>
+  10.2 Clockout — clock out for breaks if required.<br>
+  10.3 Minors — follow all legal limits.<br>
+  10.4 Equipment — minors can't use restricted tools.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 11 - PRIVACY & DATA<span class="gp-preview"> - 11 · PRIVACY & DATA:...</span></summary><div class="gp-body">11 · PRIVACY &amp; DATA:<br>
+  11.1 Privacy — never share guest details.<br>
+  11.2 Recording — no recording coworkers/guests.<br>
+  11.3 Passwords — keep all passwords private.<br>
+  11.4 Cameras — used for safety only.</div></details></div><div class="gp-card"><details><summary>TEAM-003 . 12 - DISCIPLINE LADDER<span class="gp-preview"> - 12 · DISCIPLINE LADDER:...</span></summary><div class="gp-body">12 · DISCIPLINE LADDER:<br>
+  12.1 Ladder — Coaching -&gt; Warning -&gt; Probation -&gt; Termination.<br>
+  12.2 Severe — may skip earlier steps.<br>
+  12.3 Why — safety, clarity, consistency.</div></details></div><div class="gp-card"><details><summary>GST-001 - AYCE Food To-Go Policy<span class="gp-preview"> - AYCE Food To-Go Policy...</span></summary><div class="gp-body">AYCE Food To-Go Policy<br>
+<br>
+<b>WHO:</b> All servers and managers. Every brand.<br>
+<br>
+<b>WHEN:</b> Any time a guest asks to box AYCE food.<br>
+<br>
+<b>PURPOSE:</b> One rule. One answer. Every server says the same thing.<br>
+<br>
+<b>WHAT YOU NEED:</b> Just the script below. Nothing else.<br>
+<br>
+<b>SCOPE:</b> All brands. All AYCE items — ice cream, chips, sushi, and all buffet food.<br>
+<br>
+<b>RESPONSIBILITY:</b> Servers say the script. Managers handle pushback.<br>
+<br>
+<b>THE RULE:</b> All-you-can-eat food is dine-in only. No to-go boxes. No exceptions.<br>
+<br>
+<b>PROCEDURE:</b><br>
+  1. Guest asks for a box — smile. Stay friendly.<br>
+  2. Say — "Our all-you-can-eat items are dine-in only, so I can't box those."<br>
+  3. Offer — "You're welcome to enjoy more before you go!"<br>
+  4. If asked why — "The price covers food enjoyed here — that keeps it affordable."<br>
+  5. Guest pushes back — do not argue. Get the manager.<br>
+  6. Manager — repeat the rule kindly. Once. That's it.<br>
+  7. Paid items — separately priced dishes and drinks box up like normal.<br>
+<br>
+<b>WHAT IF:</b> Guest gets upset? Manager takes over. Never argue at the table.<br>
+</div></details></div><div class="gp-card"><details><summary>PAY-001 - Employee Break & Meal Policy<span class="gp-preview"> - Employee Break & Meal Policy...</span></summary><div class="gp-body">Employee Break &amp; Meal Policy<br>
+<br>
+<b>WHO:</b> All staff. Every role, every store.<br>
+<br>
+<b>WHEN:</b> Every shift you work.<br>
+<br>
+<b>PURPOSE:</b> Give fair breaks. Feed the team right.<br>
+<br>
+<b>WHAT YOU NEED:</b> The Staff Meal Sign-Up form. A manager to approve.<br>
+<br>
+<b>SCOPE:</b> All brands. All stores. Staff only.<br>
+<br>
+<b>RESPONSIBILITY:</b> Staff sign up and take breaks. Manager approves meals.<br>
+<br>
+<b>BREAKS:</b><br>
+  1. 6 hours — one 15-minute break. Paid.<br>
+  2. 8 hours or more — two 15-minute breaks. Paid.<br>
+  3. Paid — stay on the clock for your break.<br>
+  4. Break table — take every break there.<br>
+<br>
+<b>MEALS:</b><br>
+  1. Employee meal — 25% off any dish.<br>
+  2. 8 hours or more — free kitchen staff meal.<br>
+  3. Eat on your break at the break table.<br>
+  4. Sign up — fill the Staff Meal form first.<br>
+<br>
+<b>PROCEDURE:</b><br>
+  1. Sign the Staff Meal form before your shift.<br>
+  2. Take your break at the set time.<br>
+  3. Order your meal. Manager rings 25% off.<br>
+  4. 8-hour shift? Grab your free kitchen meal.<br>
+  5. Eat at the assigned break table.<br>
+  6. Back to work when your break ends.<br>
+<br>
+<b>WHAT IF:</b> Missed a break or rung wrong? Tell the manager.<br>
+</div></details></div><div class="gp-card"><details><summary>PAY-002 - Tip-Out Policy<span class="gp-preview"> - Tip-Out Policy...</span></summary><div class="gp-body">Tip-Out Policy<br>
+<br>
+<b>WHO:</b> Servers, hosts, and bussers. The Server Lead runs the math.<br>
+<br>
+<b>WHEN:</b> Every night at close.<br>
+<br>
+<b>PURPOSE:</b> Same tip-out math, every store, every night.<br>
+<br>
+<b>WHAT YOU NEED:</b> The Tip-Out Sheet (HR-F-019). Each server's net sales.<br>
+<br>
+<b>SCOPE:</b> All brands. All stores. Every tipped shift.<br>
+<br>
+<b>RESPONSIBILITY:</b> Servers report sales. Server Lead does the math. Closing manager checks.<br>
+<br>
+<b>THE RULE:</b><br>
+  1. Servers tip out 1% of net sales — 0.5% to hosts, 0.5% to bussers.<br>
+  2. Net sales — food and drink after discounts. Tax not counted.<br>
+  3. More than one host or busser? Split that share by hours worked.<br>
+  4. No host or busser on shift? That share stays with the servers. 5. THE FLOOR: a server never tips out more than the tips they collected that shift. If 1% of sales is bigger than their tips, the tip-out stops at their tips — it can never go negative. The payroll robot enforces this automatically.<br>
+<br>
+<b>PROCEDURE:</b><br>
+  1. Print each server's net sales at close.<br>
+  2. Write every number on the Tip-Out Sheet. No verbal deals.<br>
+  3. Split the host and busser shares by hours worked.<br>
+  4. Pay each person their share the same night.<br>
+  5. Everyone who pays or gets paid signs the sheet.<br>
+  6. Closing manager checks the math, signs, and files the sheet.<br>
+<br>
+<b>WHAT IF:</b> Math disputed? Freeze it. The closing manager decides tonight. The rule never bends.<br>
+</div></details></div><div class="gp-card"><details><summary>REF-002 - Pay Band Policy<span class="gp-preview"> - Pay Band Policy...</span></summary><div class="gp-body">Pay Band Policy<br>
+<br>
+Brand: Company (all stores)<br>
+Same job, same pay — every brand, every store.<br>
+<br>
+<b>WHO:</b> Managers only. GMs, area managers, HQ. Not staff.<br>
+<b>WHEN:</b> Every hire, raise, or promotion. Check the band first.<br>
+<b>PURPOSE:</b> Same job, same pay. Every brand. Every store.<br>
+<b>WHAT YOU NEED:</b> This band sheet. The role name. 7shifts open.<br>
+<b>SCOPE:</b> All brands: Gangnam, Masa, Low Country Boils. All stores.<br>
+<b>RESPONSIBILITY:</b> GM offers inside the band. Outside the band? Louis must say yes first.<br>
+<br>
+<b>TRAINING:</b> Team members $7.25/hr during training. Managers $15/hr. Band pay starts after.<br>
+<b>TIP-OUT:</b> Servers tip out 2% of net sales: 1% host, 1% busser.<br>
+<br>
+<b>MANAGEMENT:</b><br>
+  - GM — salary + KPI bonus (corporate sets)<br>
+  - Manager in Training — $15/hr<br>
+  - AGM — $18–$20/hr<br>
+  - Floor Manager — $16–$18/hr<br>
+<br>
+<b>HQ:</b><br>
+  - Restaurant Trainer — $18–$22/hr (multi-store, full-time)<br>
+<br>
+<b>KITCHEN:</b><br>
+  - Kitchen Manager — $16–$18/hr<br>
+  - Kitchen Lead — $14–$16/hr<br>
+  - Sushi Chef (Masa) — $14–$16/hr<br>
+  - Line Cook — $12–$14/hr<br>
+  - Prep Cook — $12–$14/hr<br>
+  - Dishwasher — $10–$12/hr<br>
+<br>
+<b>FLOOR:</b><br>
+  - Server Lead — $5.00/hr + tips<br>
+  - Server — $2.13/hr + tips<br>
+  - Host — $9–$10/hr + 1% tip-out<br>
+  - Busser — $9–$10/hr + 1% tip-out<br>
+  - Bartender (Masa) — $5.00/hr + tips<br>
+<br>
+<b>RULES:</b><br>
+  1. Current staff — pay stays as is. No cuts, no forced raises.<br>
+  2. Moving forward — bands apply to new hires, raises, and promotions.<br>
+  3. Stay in band — every offer and raise fits the band.<br>
+  4. New hire — start at the low end of the band.<br>
+  5. Top of band — more pay means a new role, not a bigger number.<br>
+  6. Review — Louis reviews all bands once a year.<br>
+<br>
+<b>WHAT IF:</b> A great hire wants more than the band? Call Louis before you promise anything.<br>
+</div></details></div><div class="gp-card"><details><summary>REF-010 - Finance Manager Document Access Policy<span class="gp-preview"> - Finance Manager Document Access Policy (Yumi / HQ Finance)...</span></summary><div class="gp-body">Finance Manager Document Access Policy (Yumi / HQ Finance)<br>
+<br>
+<b>WHO:</b> HQ Finance Manager (Yumi). Other finance staff use the same rules until Louis says otherwise.<br>
+<br>
+<b>WHEN:</b> Any time you download, copy, forward, or share company files.<br>
+<br>
+<b>PURPOSE:</b> Finance can do daily money work. Owner-locked money and private people files stay locked.<br>
+<br>
+<b>WHAT YOU NEED:</b> Work tools only (Drive work folders, Gusto/7shifts maps, invoices, receipts). Not bank owner logins.<br>
+<br>
+<b>SCOPE:</b> Company-wide finance work. Not store floor chat dumps of sensitive files.<br>
+<br>
+<b>RESPONSIBILITY:</b> Finance preps and files. Louis (or Luna) approves money moves and restricted shares. Bot never approves money.<br>
+<br>
+NEED LOUIS PERMISSION FIRST<br>
+1. Move money — wire, ACH, large pay, change payee.<br>
+2. Bank core — bank login, full statements, OpenBudget / full balances.<br>
+3. Send outside the company — tax returns, W-2, bank open letters, loan papers, insurance changes, full lease/contract text.<br>
+4. Change access — make Drive public, share folders outside, delete official finance files.<br>
+5. People private originals — I-9, SSN, medical, discipline files (help payroll setup is OK; forwarding those scans is not).<br>
+<br>
+CAN DOWNLOAD / USE FOR WORK (inside company tools)<br>
+1. Invoices, vendor bills, purchase orders, payment receipts you file.<br>
+2. Store cash count, tip sheets, purchasing forms for your job.<br>
+3. Gusto / 7shifts mapping and onboarding setup checklists.<br>
+4. Public/internal company SOPs (break, tip-out) for work — do not post outside.<br>
+<br>
+DO NOT DOWNLOAD AND FORWARD WITHOUT LOUIS<br>
+1. Bank statements or full company cash/card balances.<br>
+2. Full payroll export with account numbers or SSN.<br>
+3. P&amp;L, tax, lease, contracts — especially to personal WeChat, personal email, or outside vendor groups.<br>
+4. Employee discipline, medical, I-9 scans.<br>
+5. Any confidential or restricted file to floor staff or outsiders.<br>
+<br>
+SENSITIVITY QUICK RULE<br>
+• Team / Internal (invoices, payment receipts, daily SOP) — use inside company to do the job.<br>
+• Confidential (P&amp;L, tax, payroll detail) — work need only; ask Louis before sending out.<br>
+• Restricted (bank login/full accounts, I-9/SSN, lease text going outside) — default no; Louis must approve.<br>
+<br>
+SYSTEM BOUNDARY<br>
+• Yumi uses WISE OPS for ops/finance prep and filing.<br>
+• Yumi does not approve money or firing.<br>
+• WISE BRAIN bank tools = Louis + Luna only.<br>
+<br>
+<b>WHAT IF:</b> Unsure if a file can leave the company? Stop. Ask Louis. Do not forward first.<br>
+<br>
+<b>LOCKED BY:</b> Louis · 2026-07-14 · Brain REF-010<br>
+</div></details></div><div class="gp-card"><details><summary>TEAM-015 - Company Escalation Policy<span class="gp-preview"> - Company Escalation Policy...</span></summary><div class="gp-body">Company Escalation Policy<br>
+<br>
+<b>WHO:</b> All staff, managers, and HQ. Every store.<br>
+<br>
+<b>WHEN:</b> Any work problem. Same day when safety is at risk.<br>
+<br>
+<b>PURPOSE:</b> Fix problems in order. One company email for hard cases.<br>
+<br>
+<b>WHAT YOU NEED:</b> Facts: who, store, date, what happened. Your manager name.<br>
+<br>
+<b>SCOPE:</b> All brands and stores. Staff to manager to company HR.<br>
+<br>
+<b>RESPONSIBILITY:</b> Staff speak up. Managers fix or move up. HR closes hard cases.<br>
+<br>
+<b>ONE COMPANY EMAIL:</b> hr@wiserisehospitalitygroup.com — only Level 3 door for all stores.<br>
+<br>
+THE 3 LEVELS:<br>
+  1. Level 1 — Staff. Tell your manager the problem.<br>
+  2. Level 2 — Manager. Fix it, or email company HR.<br>
+  3. Level 3 — Company HR. One email for all cases.<br>
+<br>
+LEVEL 1 — YOU TO MANAGER:<br>
+  1. Normal issues: schedule, tools, coworker problems.<br>
+  2. Tell manager same day. Talk, call, or text.<br>
+  3. Give facts: who, when, what, where.<br>
+<br>
+LEVEL 2 — MANAGER:<br>
+  1. Listen same day. Write the facts down. Try to fix.<br>
+  2. Three days max to fix normal problems.<br>
+  3. Big money, hire, fire, or safety? Tell the person above you.<br>
+  4. Not fixed in three days? Email HR yourself with the facts.<br>
+  5. Never punish staff for honest reports.<br>
+  6. If the case is about you, step aside. Staff email HR.<br>
+<br>
+LEVEL 3 — COMPANY HR:<br>
+  1. Send to hr@wiserisehospitalitygroup.com only.<br>
+  2. One address for all stores and all brands.<br>
+  3. Use when not fixed in three days.<br>
+  4. Or manager is the problem, harassment, steal, pay tricks, fear, safety.<br>
+  5. Mark the case Received the same day you open it.<br>
+  6. Reply or fix within two to three days after Received.<br>
+  7. Hard cases may need more days — say so in the reply.<br>
+  8. Honest report protected. No hours freeze for truth.<br>
+<br>
+<b>HOW FAST:</b><br>
+  1. Safety or violence — call 911 first if needed, then email HR.<br>
+  2. Harassment, steal, pay fraud — email HR same day.<br>
+  3. Normal issues — manager same day; three-day fix window.<br>
+  4. After HR marks Received — reply or fix in two to three days.<br>
+<br>
+<b>RULES:</b><br>
+  1. Start at the lowest level that fits.<br>
+  2. One company email for all stores — no second address.<br>
+  3. Skip to Level 3 if the problem is your manager or you feel unsafe.<br>
+  4. No gossip on group chats.<br>
+  5. No payback for honest reports.<br>
+  6. Fire, pay change, and legal steps need HR yes.<br>
+<br>
+<b>WHAT IF:</b> Not sure which level? Tell your manager, or email HR. Better safe.<br>
+<br>
+<b>FILLED EXAMPLE:</b> <br>
+<br>
+<b>REMEMBER:</b> Manager first for small stuff. One HR email. 2–3 days after Received.<br>
+</div></details></div><div class="gp-card"><details><summary>REF-011 - WB- GM 7SHIFT AND CHOWBUS PERMISSION<span class="gp-preview"> - WB- GM 7SHIFT AND CHOWBUS PERMISSION...</span></summary><div class="gp-body">WB- GM 7SHIFT AND CHOWBUS PERMISSION<br>
+<br>
+<b>WHO:</b> Store GMs and AGMs. Own store only.<br>
+<br>
+<b>WHEN:</b> Any time you use 7shifts or Chowbus.<br>
+<br>
+<b>PURPOSE:</b> Clear rights for GMs. Protect pay, fire, and other stores.<br>
+<br>
+<b>WHAT YOU NEED:</b> Your store login. GM or Manager template. Not company Admin.<br>
+<br>
+<b>SCOPE:</b> All stores. All GMs and AGMs. Floor managers same store only.<br>
+<br>
+<b>RESPONSIBILITY:</b> GM runs floor staff and POS logins. Louis or Yumi own fire, pay, manager accounts.<br>
+<br>
+<b>PROCEDURE:</b><br>
+  1. 7shifts — schedule and publish your store only.<br>
+  2. 7shifts — add, edit, or deactivate floor staff only.<br>
+  3. 7shifts — time clock and labor view for your store.<br>
+  4. 7shifts — no company Admin. No other stores.<br>
+  5. 7shifts — no pay change alone. No fire alone.<br>
+  6. 7shifts — do not change other managers logins.<br>
+  7. Chowbus — own store POS, sales, voids per policy.<br>
+  8. Chowbus — set or reset floor staff PIN and POS login.<br>
+  9. Chowbus — no other stores. No company settings.<br>
+  10. Bot may prep only. Needs Louis yes before people writes.<br>
+<br>
+<b>WHAT IF:</b> Need fire, pay, or kill manager login? Tell Louis or Yumi.<br>
+<br>
+<b>NEED HELP:</b> Questions or setup help? Contact Louis and Yumi.<br>
+<br>
+<b>ONE RULE:</b> Floor staff + PIN/POS = GM. Fire, pay, manager account = Louis or Yumi.<br>
+<br>
+<b>WB NAME:</b> WB- GM 7SHIFT AND CHOWBUS PERMISSION<br>
+</div></details></div>
+</div>
+</section>
+<div class="foot">Wiserise - GM Roadmap v3 - Store 00003 - 8 tabs - 4 jobs - EN | &#x4E2D;&#x6587; - Brain live SOPs - Schedule System v1.10.2 - Company Policies</div>
+</div>
+<script>function setLang(l,b){document.body.className='lang-'+l;document.querySelectorAll('.lang button').forEach(x=>x.classList.remove('on'));b.classList.add('on');}function go(id,b){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));if(b)b.classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}function goTab(i){const t=document.querySelectorAll('.tab');if(t[i])t[i].click();}function saveSopStatus(s){var sop=s.getAttribute('data-sop');try{localStorage.setItem('sop-'+sop,s.value)}catch(e){}}function loadSopStatuses(){document.querySelectorAll('.sop-status').forEach(function(s){var sop=s.getAttribute('data-sop');try{var v=localStorage.getItem('sop-'+sop);if(v)s.value=v;}catch(e){}});}document.addEventListener('DOMContentLoaded',loadSopStatuses);document.querySelectorAll('.sch-subtabs').forEach(function(g){g.querySelectorAll('.sch-subtab').forEach(function(b){b.addEventListener('click',function(){var id=b.getAttribute('data-sub');var st=g.getAttribute('data-store');g.querySelectorAll('.sch-subtab').forEach(function(x){x.classList.remove('on');});b.classList.add('on');['how-'+st,'staff-'+st,'gap-'+st,'sch-'+st,'hist-'+st].forEach(function(pid){var el=document.getElementById(pid);if(el)el.classList.toggle('on',pid===id);});});});});</script>
+</body>
+</html>
